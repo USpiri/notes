@@ -1,0 +1,9 @@
+.sidebar {
+  @apply w-0 border-transparent;
+  transition:
+    width 0.2s linear,
+    border 0.05s linear;
+}
+.open {
+  @apply w-screen border-neutral-800 sm:w-64;
+}
