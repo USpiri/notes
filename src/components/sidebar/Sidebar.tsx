@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import "./sidebar.css";
 
 export const Sidebar = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <aside className="fixed flex sm:relative">
