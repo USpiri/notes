@@ -9,10 +9,10 @@ export const Sidebar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <aside className="fixed flex sm:relative">
+    <aside className="fixed z-20 bg-neutral-950 sm:relative sm:flex">
       <div
         className={cn(
-          "sidebar h-screen overflow-hidden border-r bg-neutral-950",
+          "sidebar sticky top-0 h-screen overflow-hidden border-r bg-neutral-950",
           open && "open",
         )}
       >
@@ -25,7 +25,10 @@ export const Sidebar = () => {
           onClick={() => setOpen(!open)}
           variant="outline"
           size="icon"
-          className={cn("absolute top-2 sm:ml-2", open ? "-ml-12" : "ml-2")}
+          className={cn(
+            "fixed bottom-5 right-5 z-30 transition-transform sm:bottom-[unset] sm:right-[unset] sm:top-5 sm:ml-4",
+            open && "sm:-translate-x-16",
+          )}
         >
           <Menu className="h-5 w-5" />
         </Button>
