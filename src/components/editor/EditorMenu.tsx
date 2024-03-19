@@ -43,6 +43,7 @@ export const EditorMenu = ({ vertical, editor }: EditorMenuProps) => {
                       ? "outline"
                       : "ghost"
                   }
+                  className="border border-transparent"
                 >
                   <command.icon className="h-4 w-4" />
                 </Button>
