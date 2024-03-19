@@ -161,30 +161,30 @@ export const MENU: MenuGroup[] = [
         action: (editor) =>
           editor.chain().focus().enter().setHorizontalRule().run(),
       },
-      // {
-      //   name: "link",
-      //   label: "Insert Link",
-      //   icon: Link,
-      //   aliases: ["a", "anchor"],
-      //   description: "Add external link",
-      //   action: (editor) => {
-      //     const previousUrl = editor!.getAttributes("link").href;
-      //     const url = window.prompt("URL", previousUrl);
-      //
-      //     if (url === null) return;
-      //     if (url === "") {
-      //       editor!.chain().focus().extendMarkRange("link").unsetLink().run();
-      //       return;
-      //     }
-      //     editor!
-      //       .chain()
-      //       .focus()
-      //       .extendMarkRange("link")
-      //       .setLink({ href: url, target: "_blank" })
-      //       .run();
-      //   },
-      //   shouldBeMarked: (editor) => editor.isActive("link"),
-      // },
+      {
+        name: "link",
+        label: "Insert Link",
+        icon: Link,
+        aliases: ["a", "anchor"],
+        description: "Add external link",
+        action: (editor) => {
+          const previousUrl = editor!.getAttributes("link").href;
+          const url = window.prompt("URL", previousUrl);
+
+          if (url === null) return;
+          if (url === "") {
+            editor!.chain().focus().extendMarkRange("link").unsetLink().run();
+            return;
+          }
+          editor!
+            .chain()
+            .focus()
+            .extendMarkRange("link")
+            .setLink({ href: url, target: "_blank" })
+            .run();
+        },
+        shouldBeMarked: (editor) => editor.isActive("link"),
+      },
       // {
       //   name: "callout",
       //   label: "Callout",
