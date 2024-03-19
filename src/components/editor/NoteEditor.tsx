@@ -1,29 +1,39 @@
 "use client";
 
-import { EditorContent, useEditor } from "@tiptap/react";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { cn } from "@/lib/utils";
+import { EditorMenu } from "./EditorMenu";
 
 export interface NoteEditorProps {
-  content: string;
+  editorConfig: {
+    content: string;
+    vertical?: boolean;
+    editable?: boolean;
+  };
+  onUpdate?: (editor: Editor) => void;
 }
 
 export const NoteEditor = (props: NoteEditorProps) => {
-  const { content } = props;
+  const { content, vertical = false } = props.editorConfig;
 
-  const editor = useEditor({
+  const editor: Editor | null = useEditor({
     extensions: [StarterKit],
     content,
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral",
+          "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
       },
     },
   });
+
+  if (!editor) return;
+
   return (
-    <div>
-      <div></div>
-      <div className="w-full">
+    <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
+      <EditorMenu vertical={vertical} editor={editor} />
+      <div className={cn("my-6 px-12", vertical ? "flex-1" : "w-full")}>
         <EditorContent editor={editor} />
       </div>
     </div>
