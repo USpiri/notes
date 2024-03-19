@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
 import { LucideIcon } from "lucide-react";
 
 export interface MenuGroup {

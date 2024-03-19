@@ -9,6 +9,7 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import "./editor.css";
 import Link from "@tiptap/extension-link";
+import { SlashCommand } from "./extensions/slash-command/slash-command";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -24,6 +25,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
 
   const editor: Editor | null = useEditor({
     extensions: [
+      SlashCommand,
       StarterKit,
       Underline,
       TaskList,
@@ -49,7 +51,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
       <EditorMenu vertical={vertical} editor={editor} />
-      <div className={cn("my-6 px-12", vertical ? "flex-1" : "w-full")}>
+      <div className={cn("mt-6 px-12", vertical ? "flex-1" : "w-full")}>
         <EditorContent editor={editor} />
       </div>
     </div>
