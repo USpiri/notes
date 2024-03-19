@@ -77,14 +77,14 @@ export const MENU: MenuGroup[] = [
         action: (editor) => editor.chain().focus().toggleStrike().run(),
         shouldBeMarked: (editor) => editor.isActive("strike"),
       },
-      // {
-      //   name: "underline",
-      //   label: "Underline",
-      //   icon: UnderlineIcon,
-      //   description: "Underline text",
-      //   action: (editor) => editor.chain().focus().toggleUnderline().run(),
-      //   shouldBeMarked: (editor) => editor.isActive("underline"),
-      // },
+      {
+        name: "underline",
+        label: "Underline",
+        icon: UnderlineIcon,
+        description: "Underline text",
+        action: (editor) => editor.chain().focus().toggleUnderline().run(),
+        shouldBeMarked: (editor) => editor.isActive("underline"),
+      },
     ],
   },
   {

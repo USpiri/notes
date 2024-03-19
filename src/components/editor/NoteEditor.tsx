@@ -4,6 +4,7 @@ import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { cn } from "@/lib/utils";
 import { EditorMenu } from "./EditorMenu";
+import Underline from "@tiptap/extension-underline";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -18,7 +19,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
   const { content, vertical = false } = props.editorConfig;
 
   const editor: Editor | null = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Underline],
     content,
     editorProps: {
       attributes: {
