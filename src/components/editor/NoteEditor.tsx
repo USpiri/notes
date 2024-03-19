@@ -10,6 +10,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import "./editor.css";
 import Link from "@tiptap/extension-link";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
+import Placeholder from "@tiptap/extension-placeholder";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -36,6 +37,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
         validate: (href) => /^https?:\/\//.test(href),
         linkOnPaste: true,
       }),
+      Placeholder,
     ],
     content,
     editorProps: {
