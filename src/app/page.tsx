@@ -3,7 +3,6 @@ import { CONTENT } from "@/lib/content";
 
 export default function Home() {
   const editor = {
-    // content: "<h1>Hello World! 🌎</h1>",
     content: CONTENT,
     vertical: false,
   };
