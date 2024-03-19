@@ -107,14 +107,14 @@ export const MENU: MenuGroup[] = [
         action: (editor) => editor.chain().focus().toggleOrderedList().run(),
         shouldBeMarked: (editor) => editor.isActive("orderedList"),
       },
-      // {
-      //   name: "checkList",
-      //   label: "Check List",
-      //   icon: ListTodo,
-      //   description: "Check List",
-      //   action: (editor) => editor.chain().focus().toggleTaskList().run(),
-      //   shouldBeMarked: (editor) => editor.isActive("taskList"),
-      // },
+      {
+        name: "checkList",
+        label: "Check List",
+        icon: ListTodo,
+        description: "Check List",
+        action: (editor) => editor.chain().focus().toggleTaskList().run(),
+        shouldBeMarked: (editor) => editor.isActive("taskList"),
+      },
     ],
   },
   {

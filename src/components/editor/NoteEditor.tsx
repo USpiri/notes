@@ -5,6 +5,9 @@ import StarterKit from "@tiptap/starter-kit";
 import { cn } from "@/lib/utils";
 import { EditorMenu } from "./EditorMenu";
 import Underline from "@tiptap/extension-underline";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import "./editor.css";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -19,7 +22,14 @@ export const NoteEditor = (props: NoteEditorProps) => {
   const { content, vertical = false } = props.editorConfig;
 
   const editor: Editor | null = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit,
+      Underline,
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
+    ],
     content,
     editorProps: {
       attributes: {

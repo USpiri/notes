@@ -1,0 +1,50 @@
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+
+  p {
+    margin: 0;
+  }
+
+  div {
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+
+    > label {
+      margin-right: 0.5rem;
+      margin-top: 0.1rem;
+      user-select: none;
+    }
+
+    > div {
+      flex: 1 1 auto;
+    }
+
+    ul li,
+    ol li {
+      display: list-item;
+    }
+
+    ul[data-type="taskList"] > li {
+      display: flex;
+    }
+  }
+}
+
+blockquote {
+  p:after,
+  p:before {
+    content: "" !important;
+  }
+}
+
+.tiptap p.is-empty::before {
+  @apply font-semibold text-neutral-500;
+  content: 'Type "/" to browse options.';
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
