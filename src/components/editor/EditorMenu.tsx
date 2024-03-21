@@ -22,9 +22,9 @@ export const EditorMenu = ({ vertical, editor }: EditorMenuProps) => {
       <div>
         <div
           className={cn(
-            "flex justify-start gap-1.5",
+            "flex justify-start gap-1",
             vertical
-              ? "sticky top-0 mx-1 flex-col py-2"
+              ? "sticky top-0 mx-1.5 flex-col py-2"
               : "mx-1 my-2 flex-wrap",
           )}
         >
@@ -50,7 +50,10 @@ export const EditorMenu = ({ vertical, editor }: EditorMenuProps) => {
               ))}
               {index < MENU.length - 1 && (
                 <Separator
-                  className="hidden h-auto md:block"
+                  className={cn(
+                    "hidden h-auto md:block",
+                    vertical ? "my-1 h-px" : "mx-0.5",
+                  )}
                   orientation={vertical ? "horizontal" : "vertical"}
                 />
               )}

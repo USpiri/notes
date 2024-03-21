@@ -4,7 +4,7 @@ import { CONTENT } from "@/lib/content";
 export default function Home() {
   const editor = {
     content: CONTENT,
-    vertical: false,
+    vertical: true,
   };
   return (
     <main className="mx-auto w-full max-w-3xl py-16">
