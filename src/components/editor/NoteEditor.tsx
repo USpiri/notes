@@ -1,6 +1,6 @@
 "use client";
 
-import { Editor, EditorContent, useEditor } from "@tiptap/react";
+import { Editor, EditorContent, EditorOptions, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { cn } from "@/lib/utils";
 import { EditorMenu } from "./EditorMenu";
@@ -25,6 +25,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
   const { content, vertical = false } = props.editorConfig;
 
   const editor: Editor | null = useEditor({
+    autofocus: true,
     extensions: [
       SlashCommand,
       StarterKit,
@@ -53,7 +54,12 @@ export const NoteEditor = (props: NoteEditorProps) => {
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
       <EditorMenu vertical={vertical} editor={editor} />
-      <div className={cn("mt-6 px-12", vertical ? "flex-1" : "w-full")}>
+      <div
+        className={cn(
+          "mt-6",
+          vertical ? "flex-1 px-4 md:px-8" : "w-full px-6 md:px-12",
+        )}
+      >
         <EditorContent editor={editor} />
       </div>
     </div>
