@@ -1,6 +1,6 @@
 "use client";
 
-import { Editor, EditorContent, EditorOptions, useEditor } from "@tiptap/react";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { cn } from "@/lib/utils";
 import { EditorMenu } from "./EditorMenu";
@@ -11,6 +11,7 @@ import "./editor.css";
 import Link from "@tiptap/extension-link";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useEffect } from "react";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -22,7 +23,8 @@ export interface NoteEditorProps {
 }
 
 export const NoteEditor = (props: NoteEditorProps) => {
-  const { content, vertical = false } = props.editorConfig;
+  const { content, vertical = false, editable = true } = props.editorConfig;
+  const { onUpdate } = props;
 
   const editor: Editor | null = useEditor({
     autofocus: true,
@@ -41,19 +43,37 @@ export const NoteEditor = (props: NoteEditorProps) => {
       Placeholder,
     ],
     content,
+    editable,
     editorProps: {
       attributes: {
         class:
           "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
       },
     },
+    onUpdate: ({ editor }) => {
+      if (onUpdate) {
+        onUpdate(editor as Editor);
+      }
+    },
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
+
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(editable);
+    }
+  }, [editable, editor]);
 
   if (!editor) return;
 
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
-      <EditorMenu vertical={vertical} editor={editor} />
+      <EditorMenu vertical={vertical} editable={editable} editor={editor} />
       <div
         className={cn(
           "mt-6",

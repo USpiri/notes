@@ -1,14 +1,9 @@
-import { NoteEditor } from "@/components/editor/NoteEditor";
-import { CONTENT } from "@/lib/content";
+import { Note } from "@/components/note/Note";
 
 export default function Home() {
-  const editor = {
-    content: CONTENT,
-    vertical: true,
-  };
   return (
     <main className="mx-auto w-full max-w-3xl py-16">
-      <NoteEditor editorConfig={editor} />
+      <Note />
     </main>
   );
 }

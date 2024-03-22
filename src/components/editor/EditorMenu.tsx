@@ -7,10 +7,11 @@ import { MENU } from "./menu";
 
 interface EditorMenuProps {
   vertical: boolean;
+  editable: boolean;
   editor: Editor;
 }
 
-export const EditorMenu = ({ vertical, editor }: EditorMenuProps) => {
+export const EditorMenu = ({ vertical, editable, editor }: EditorMenuProps) => {
   return (
     <div
       className={cn(
@@ -44,6 +45,7 @@ export const EditorMenu = ({ vertical, editor }: EditorMenuProps) => {
                       : "ghost"
                   }
                   className="border border-transparent"
+                  disabled={!editable}
                 >
                   <command.icon className="h-4 w-4" />
                 </Button>

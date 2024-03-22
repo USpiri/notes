@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import "./sidebar.css";
+import { ConfigDialog } from "../config-dialog/ConfigDialog";
 
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -21,17 +22,17 @@ export const Sidebar = () => {
         </div>
       </div>
       <div>
-        <Button
-          onClick={() => setOpen(!open)}
-          variant="outline"
-          size="icon"
+        <div
           className={cn(
-            "fixed bottom-5 right-5 z-30 transition-transform sm:bottom-[unset] sm:right-[unset] sm:top-5 sm:ml-4",
-            open && "sm:-translate-x-16",
+            "fixed bottom-5 right-5 z-30 ml-4 flex flex-col gap-2 transition-transform sm:bottom-[unset] sm:right-[unset] sm:top-5 sm:flex-row",
+            open && "sm:-translate-x-8",
           )}
         >
-          <Menu className="h-5 w-5" />
-        </Button>
+          <Button onClick={() => setOpen(!open)} variant="outline" size="icon">
+            <Menu className="h-5 w-5" />
+          </Button>
+          <ConfigDialog />
+        </div>
       </div>
     </aside>
   );
