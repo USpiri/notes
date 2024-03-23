@@ -57,6 +57,7 @@ export const Sidebar = () => {
       },
     ],
   };
+
   const { setContent } = useEditorStore((state) => ({
     setContent: state.setContent,
   }));
