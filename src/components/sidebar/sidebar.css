@@ -7,3 +7,7 @@
 .open {
   @apply w-screen border-neutral-800 sm:w-64;
 }
+
+.tab input:checked ~ .content {
+  max-height: 10rem;
+}

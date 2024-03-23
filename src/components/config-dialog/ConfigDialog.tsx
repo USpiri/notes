@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Settings2 } from "lucide-react";
+import { Settings } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { useEditorStore } from "@/store/configStore";
 import { CONTENT } from "@/lib/content";
@@ -27,8 +27,8 @@ export const ConfigDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Settings2 className="h-5 w-5" />
+        <Button variant="outline" size="icon" className="h-7 w-7">
+          <Settings className="h-3.5 w-3.5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
