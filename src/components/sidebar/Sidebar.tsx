@@ -8,7 +8,7 @@ import { ConfigDialog } from "../config-dialog/ConfigDialog";
 import { Folder } from "@/models/folder.interface";
 import { CONTENT, CONTENT2 } from "@/lib/content";
 import { SidebarItem } from "./SidebarItem";
-import { useEditorStore } from "@/store/configStore";
+import { useEditorStore } from "@/store/config-store";
 import { SidebarFolder } from "./SidebarFolder";
 import { Separator } from "../ui/separator";
 
