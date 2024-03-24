@@ -74,10 +74,10 @@ export const NoteEditor = (props: NoteEditorProps) => {
       <div
         className={cn(
           "mt-6",
-          vertical ? "flex-1 px-4 md:px-8" : "w-full px-6 md:px-12",
+          vertical ? "flex flex-1 px-4 md:px-8" : "w-full px-6 md:px-12",
         )}
       >
-        <EditorContent editor={editor} />
+        <EditorContent editor={editor} className="w-full" />
       </div>
     </div>
   );
