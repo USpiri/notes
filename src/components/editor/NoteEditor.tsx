@@ -12,6 +12,7 @@ import Link from "@tiptap/extension-link";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect } from "react";
+import { CalloutExtension } from "./extensions/callout/callout";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -41,6 +42,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
           validate: (href) => /^https?:\/\//.test(href),
           linkOnPaste: true,
         }),
+        CalloutExtension,
         Placeholder,
       ],
       content,

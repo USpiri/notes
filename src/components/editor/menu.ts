@@ -185,14 +185,14 @@ export const MENU: MenuGroup[] = [
         },
         shouldBeMarked: (editor) => editor.isActive("link"),
       },
-      // {
-      //   name: "callout",
-      //   label: "Callout",
-      //   icon: Lightbulb,
-      //   description: "Add a callout",
-      //   action: (editor) => editor.chain().focus().toggleCallout().run(),
-      //   shouldBeMarked: (editor) => editor.isActive("callout"),
-      // },
+      {
+        name: "callout",
+        label: "Callout",
+        icon: Lightbulb,
+        description: "Add a callout",
+        action: (editor) => editor.chain().focus().toggleCallout().run(),
+        shouldBeMarked: (editor) => editor.isActive("callout"),
+      },
     ],
   },
 ];

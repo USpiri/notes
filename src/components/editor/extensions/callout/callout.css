@@ -1,0 +1,32 @@
+.note {
+  &.icon {
+    @apply text-cyan-500;
+  }
+  &.content {
+    @apply bg-cyan-500/15 border-l-cyan-600;
+  }
+}
+.caution {
+  &.icon {
+    @apply text-amber-500;
+  }
+  &.content {
+    @apply bg-amber-500/15 border-l-amber-600;
+  }
+}
+.error {
+  &.icon {
+    @apply text-red-500;
+  }
+  &.content {
+    @apply bg-red-500/15 border-l-red-600;
+  }
+}
+.success {
+  &.icon {
+    @apply text-emerald-500;
+  }
+  &.content {
+    @apply bg-emerald-500/15 border-l-emerald-600;
+  }
+}
