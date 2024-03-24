@@ -1,23 +1,35 @@
 "use client";
 
-import { useEditorStore } from "@/store/configStore";
+import { useEditorStore } from "@/store/config-store";
 import { NoteEditor } from "../editor/NoteEditor";
 import { Editor } from "@tiptap/react";
+import { useDebouncedCallback } from "use-debounce";
+import { useNoteStore } from "@/store/note-store";
 
 export const Note = () => {
+  const { updateNote, selectedNote } = useNoteStore((state) => ({
+    updateNote: state.updateNote,
+    selectedNote: state.selectedNote,
+  }));
+
   const editor = useEditorStore((state) => ({
     vertical: state.vertical,
-    content: state.content,
     editable: state.editable,
   }));
 
-  const { setContent } = useEditorStore((state) => ({
-    setContent: state.setContent,
-  }));
+  const handleEditorUpdate = useDebouncedCallback((editor: Editor) => {
+    if (!selectedNote) return;
+    updateNote(selectedNote.id ?? "1", {
+      ...selectedNote,
+      content: editor.getHTML(),
+    });
+  }, 300);
 
-  const handleEditorUpdate = (editor: Editor) => {
-    setContent(editor.getHTML());
-  };
-
-  return <NoteEditor editorConfig={editor} onUpdate={handleEditorUpdate} />;
+  return (
+    <NoteEditor
+      editorConfig={editor}
+      onUpdate={handleEditorUpdate}
+      content={selectedNote?.content ?? ""}
+    />
+  );
 };

@@ -4,24 +4,16 @@ import { Folder } from "@/models/folder.interface";
 import { Folder as FolderIcon, FolderOpen } from "lucide-react";
 import { useState } from "react";
 import { SidebarItem } from "./SidebarItem";
-import { useEditorStore } from "@/store/configStore";
 
 interface SidebarFolderProps extends Folder {}
 
 export const SidebarFolder = ({ folders, notes, name }: SidebarFolderProps) => {
   const [open, setOpen] = useState(false);
 
-  const { setContent } = useEditorStore((state) => ({
-    setContent: state.setContent,
-  }));
-
   const handleOpenFolder = () => {
     setOpen(!open);
   };
 
-  const handleItemClick = (content: string) => {
-    setContent(content);
-  };
   return (
     <div className="tab">
       <input
@@ -50,10 +42,7 @@ export const SidebarFolder = ({ folders, notes, name }: SidebarFolderProps) => {
         ))}
         {notes.map((note) => (
           <li key={note.id} className="ml-4 border-l border-neutral-700 pl-2">
-            <SidebarItem
-              label={note.title}
-              onClick={() => handleItemClick(note.content)}
-            />
+            <SidebarItem note={note} />
           </li>
         ))}
       </ul>

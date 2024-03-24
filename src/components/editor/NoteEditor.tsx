@@ -15,53 +15,50 @@ import { useEffect } from "react";
 
 export interface NoteEditorProps {
   editorConfig: {
-    content: string;
     vertical?: boolean;
     editable?: boolean;
   };
+  content: string;
   onUpdate?: (editor: Editor) => void;
 }
 
 export const NoteEditor = (props: NoteEditorProps) => {
-  const { content, vertical = false, editable = true } = props.editorConfig;
-  const { onUpdate } = props;
+  const { vertical = false, editable = true } = props.editorConfig;
+  const { onUpdate, content } = props;
 
-  const editor: Editor | null = useEditor({
-    autofocus: true,
-    extensions: [
-      SlashCommand,
-      StarterKit,
-      Underline,
-      TaskList,
-      TaskItem.configure({
-        nested: true,
-      }),
-      Link.configure({
-        validate: (href) => /^https?:\/\//.test(href),
-        linkOnPaste: true,
-      }),
-      Placeholder,
-    ],
-    content,
-    editable,
-    editorProps: {
-      attributes: {
-        class:
-          "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
+  const editor = useEditor(
+    {
+      autofocus: true,
+      extensions: [
+        SlashCommand,
+        StarterKit,
+        Underline,
+        TaskList,
+        TaskItem.configure({
+          nested: true,
+        }),
+        Link.configure({
+          validate: (href) => /^https?:\/\//.test(href),
+          linkOnPaste: true,
+        }),
+        Placeholder,
+      ],
+      content,
+      editable,
+      editorProps: {
+        attributes: {
+          class:
+            "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
+        },
+      },
+      onUpdate: ({ editor }) => {
+        if (onUpdate) {
+          onUpdate(editor as Editor);
+        }
       },
     },
-    onUpdate: ({ editor }) => {
-      if (onUpdate) {
-        onUpdate(editor as Editor);
-      }
-    },
-  });
-
-  useEffect(() => {
-    if (editor) {
-      editor.commands.setContent(content);
-    }
-  }, [content, editor]);
+    [content],
+  );
 
   useEffect(() => {
     if (editor) {

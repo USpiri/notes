@@ -11,18 +11,17 @@ import {
 import { Button } from "../ui/button";
 import { Settings } from "lucide-react";
 import { Switch } from "../ui/switch";
-import { useEditorStore } from "@/store/configStore";
-import { CONTENT } from "@/lib/content";
+import { useEditorStore } from "@/store/config-store";
 
 export const ConfigDialog = () => {
-  const { vertical, editable, setVertical, setEditable, setContent } =
-    useEditorStore((state) => ({
+  const { vertical, editable, setVertical, setEditable } = useEditorStore(
+    (state) => ({
       vertical: state.vertical,
       setVertical: state.setVertical,
       editable: state.editable,
       setEditable: state.setEditable,
-      setContent: state.setContent,
-    }));
+    }),
+  );
 
   return (
     <Dialog>
@@ -51,12 +50,6 @@ export const ConfigDialog = () => {
           <div className="flex items-center justify-between text-neutral-500">
             <span className="text-sm">Inline (Próximamente...)</span>
             <Switch disabled={true} />
-          </div>
-          <div className="flex items-center justify-between text-neutral-500">
-            <span className="text-sm">Reestablecer contenido</span>
-            <Button variant="outline" onClick={() => setContent(CONTENT)}>
-              Reset
-            </Button>
           </div>
         </div>
       </DialogContent>
