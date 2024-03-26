@@ -2,11 +2,11 @@ import { CONTENT } from "@/lib/content";
 import { Folder } from "@/models/folder.interface";
 import { Note } from "@/models/note.interface";
 import { type StateCreator, create } from "zustand";
-import { persist } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 interface NoteState {
   root: Folder;
-  selectedNote: Note | null;
+  selectedNote?: Note;
   createNote: () => void;
   updateNote: (id: string, note: Note) => void;
   setSelectedNote: (note: Note) => void;
@@ -27,14 +27,6 @@ const noteState: StateCreator<NoteState> = (set) => ({
     ],
     folders: [],
   },
-  selectedNote: {
-    id: "123",
-    title: "Custom Editor",
-    content: CONTENT,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-
   createNote: () =>
     set((state) => ({
       root: { ...state.root, notes: [...state.root.notes, createNewNote()] },
@@ -51,7 +43,7 @@ const noteState: StateCreator<NoteState> = (set) => ({
 });
 
 export const useNoteStore = create<NoteState>()(
-  persist(noteState, { name: "note-store" }),
+  devtools(persist(noteState, { name: "note-store" })),
 );
 
 const findNoteById = (id: string, folder: Folder): Note | null => {
