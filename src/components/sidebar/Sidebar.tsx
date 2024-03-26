@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FolderPlus, Menu, SquarePen } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,9 +8,11 @@ import { SidebarItem } from "./SidebarItem";
 import { SidebarFolder } from "./SidebarFolder";
 import { Separator } from "../ui/separator";
 import { useNoteStore } from "@/store/note-store";
+import { useConfigStore } from "@/store/config-store";
 
 export const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const open = useConfigStore((state) => state.openMenu);
+  const setOpen = useConfigStore((state) => state.toggleMenu);
 
   const { folder } = useNoteStore((state) => ({
     folder: state.root,
@@ -58,8 +59,12 @@ export const Sidebar = () => {
         </div>
       </div>
       <div>
-        <div className="fixed bottom-5 right-5 z-30 ml-4 flex flex-col gap-2 transition-transform sm:bottom-[unset] sm:right-[unset] sm:top-5 sm:flex-row">
-          <Button onClick={() => setOpen(!open)} variant="outline" size="icon">
+        <div className="fixed top-2 z-30 ml-2 flex flex-col gap-2 transition-transform md:top-5 md:ml-4">
+          <Button
+            onClick={() => setOpen(!open)}
+            variant="secondary"
+            size="icon"
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </div>

@@ -1,12 +1,9 @@
 import { Note } from "@/models/note.interface";
+import { useConfigStore } from "@/store/config-store";
 import { useNoteStore } from "@/store/note-store";
 import { FileText } from "lucide-react";
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  KeyboardEventHandler,
-  useState,
-} from "react";
+import Link from "next/link";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 interface SidebarItemProps {
   note: Note;
@@ -15,6 +12,7 @@ interface SidebarItemProps {
 export const SidebarItem = ({ note }: SidebarItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(note.title);
+  const setOpen = useConfigStore((state) => state.toggleMenu);
 
   const { setSelectedNote, updateNote } = useNoteStore((state) => ({
     setSelectedNote: state.setSelectedNote,
@@ -22,6 +20,7 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
   }));
 
   const handleItemClick = () => {
+    setOpen(false);
     setSelectedNote(note);
   };
 
@@ -52,26 +51,31 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
   };
 
   return (
-    <button
-      className="flex w-full items-center gap-2 rounded px-2 py-1 transition-all hover:bg-neutral-800"
-      onClick={handleItemClick}
-    >
-      <FileText className="h-4 w-4 text-neutral-500" />
-      <div className="text-xs font-semibold" onDoubleClick={handleDoubleClick}>
-        {isEditing ? (
-          <input
-            autoFocus
-            type="text"
-            value={text}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            onKeyDown={handleEnterKey}
-            className="bg-transparent focus:outline-none"
-          />
-        ) : (
-          <span>{text}</span>
-        )}
-      </div>
-    </button>
+    <Link href={{ query: note.id }}>
+      <button
+        className="flex w-full items-center gap-2 rounded px-2 py-1 transition-all hover:bg-neutral-800"
+        onClick={handleItemClick}
+      >
+        <FileText className="h-4 w-4 text-neutral-500" />
+        <div
+          className="text-xs font-semibold"
+          onDoubleClick={handleDoubleClick}
+        >
+          {isEditing ? (
+            <input
+              autoFocus
+              type="text"
+              value={text}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              onKeyDown={handleEnterKey}
+              className="bg-transparent focus:outline-none"
+            />
+          ) : (
+            <span>{text}</span>
+          )}
+        </div>
+      </button>
+    </Link>
   );
 };

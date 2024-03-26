@@ -25,7 +25,7 @@ export const EditorMenu = ({ vertical, editable, editor }: EditorMenuProps) => {
           className={cn(
             "flex justify-start gap-1",
             vertical
-              ? "sticky top-0 mx-1.5 flex-col py-2"
+              ? "sticky top-0 mx-1.5 flex-col py-2 pt-12 md:pt-2"
               : "mx-1 my-2 flex-wrap",
           )}
         >

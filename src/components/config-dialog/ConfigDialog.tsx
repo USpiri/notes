@@ -11,10 +11,10 @@ import {
 import { Button } from "../ui/button";
 import { Settings } from "lucide-react";
 import { Switch } from "../ui/switch";
-import { useEditorStore } from "@/store/config-store";
+import { useConfigStore } from "@/store/config-store";
 
 export const ConfigDialog = () => {
-  const { vertical, editable, setVertical, setEditable } = useEditorStore(
+  const { vertical, editable, setVertical, setEditable } = useConfigStore(
     (state) => ({
       vertical: state.vertical,
       setVertical: state.setVertical,
