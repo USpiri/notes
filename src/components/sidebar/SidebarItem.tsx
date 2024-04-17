@@ -119,7 +119,7 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
             </button>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <button onClick={() => deleteNote(selectedNoteId!)}>
+            <button onClick={() => deleteNote(note.id)}>
               <span className="text-xs">Delete</span>
             </button>
           </DropdownMenuItem>
