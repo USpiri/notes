@@ -8,7 +8,12 @@ interface NoteState {
   root: Folder;
   selectedNote?: Note;
   createNote: () => void;
+  createFolder: () => void;
+  createNoteInFolder: (id: string) => void;
   updateNote: (id: string, note: Note) => void;
+  updateFodlerName: (id: string, name: string) => void;
+  deleteNote: (id: string) => void;
+  deleteFolder: (id: string) => void;
   setSelectedNote: (note: Note) => void;
 }
 
@@ -31,12 +36,71 @@ const noteState: StateCreator<NoteState> = (set) => ({
     set((state) => ({
       root: { ...state.root, notes: [...state.root.notes, createNewNote()] },
     })),
+  createFolder: () =>
+    set((state) => ({
+      root: {
+        ...state.root,
+        folders: [...state.root.folders, createNewFodler()],
+      },
+    })),
+  createNoteInFolder: (id) => {
+    set((state) => {
+      const updatedRoot = newNoteInFolder(id, state.root);
+      return { root: updatedRoot };
+    });
+  },
   setSelectedNote: (note) => set(() => ({ selectedNote: note })),
   updateNote: (id, note) => {
     set((state) => {
       const updatedRoot = updateNoteInFolders(id, note, state.root);
       return {
         root: updatedRoot,
+      };
+    });
+  },
+  updateFodlerName: (id, name) => {
+    set((state) => {
+      const updatedRoot = updatedFolderInFolders(id, name, state.root);
+      return {
+        root: updatedRoot,
+      };
+    });
+  },
+  deleteNote: (id) => {
+    set((state) => {
+      const updatedRoot = deleteNoteInFolders(id, state.root);
+      const defaultNote = {
+        id: "123",
+        title: "Custom Editor",
+        content: CONTENT,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const newSelectedNote =
+        state.selectedNote?.id === id ? defaultNote : state.selectedNote;
+      return {
+        root: updatedRoot,
+        selectedNote: newSelectedNote,
+      };
+    });
+  },
+  deleteFolder: (id) => {
+    set((state) => {
+      const updatedRoot = deleteFolderInFolders(id, state.root);
+      const defaultNote = {
+        id: "123",
+        title: "Custom Editor",
+        content: CONTENT,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const newSelectedNote =
+        findNoteById(state.selectedNote?.id!, state.root) === null
+          ? defaultNote
+          : state.selectedNote;
+      return {
+        root: updatedRoot,
+        selectedNote: newSelectedNote,
       };
     });
   },
@@ -77,15 +141,16 @@ const updateNoteInFolders = (
   };
 };
 
-const deleteNoteInFolders = (
-  id: string,
-  note: Note,
-  folder: Folder,
-): Folder => {
-  const filteredNotes = folder.notes.map((n) => (n.id === id ? note : n));
-
+const deleteNoteInFolders = (id: string, folder: Folder): Folder => {
+  const filteredNotes = folder.notes.filter((n) => n.id !== id);
+  if (filteredNotes.length < folder.notes.length) {
+    return {
+      ...folder,
+      notes: filteredNotes,
+    };
+  }
   const filteredFolders = folder.folders.map((sub) =>
-    deleteNoteInFolders(id, note, sub),
+    deleteNoteInFolders(id, sub),
   );
   return {
     ...folder,
@@ -101,6 +166,57 @@ const createNewNote = (): Note => ({
   createdAt: new Date(),
   updatedAt: new Date(),
 });
+
+const newNoteInFolder = (id: string, folder: Folder): Folder => {
+  const note = createNewNote();
+  const updatedFolders = folder.folders.map((f) =>
+    f.id === id ? { ...f, notes: [...f.notes, note] } : f,
+  );
+
+  if (updatedFolders.some((f) => f.id === id)) {
+    return { ...folder, folders: updatedFolders };
+  } else {
+    const updatedSubFolders = updatedFolders.map((f) => newNoteInFolder(id, f));
+    return { ...folder, folders: updatedSubFolders };
+  }
+};
+
+const createNewFodler = (): Folder => ({
+  id: generateUUID(),
+  name: "New folder",
+  notes: [],
+  folders: [],
+});
+
+const updatedFolderInFolders = (
+  id: string,
+  name: string,
+  folder: Folder,
+): Folder => {
+  const updatedFolders = folder.folders.map((f) =>
+    f.id === id ? { ...f, name } : f,
+  );
+
+  if (updatedFolders.some((f) => f.id === id)) {
+    return { ...folder, folders: updatedFolders };
+  } else {
+    const updatedSubFolders = updatedFolders.map((f) =>
+      updatedFolderInFolders(id, name, f),
+    );
+    return { ...folder, folders: updatedSubFolders };
+  }
+};
+
+const deleteFolderInFolders = (id: string, folder: Folder): Folder => {
+  const filteredFolders = folder.folders.filter((f) => f.id !== id);
+  const updatedFolders = filteredFolders.map((sub) =>
+    deleteNoteInFolders(id, sub),
+  );
+  return {
+    ...folder,
+    folders: updatedFolders,
+  };
+};
 
 const generateUUID = () => {
   return (

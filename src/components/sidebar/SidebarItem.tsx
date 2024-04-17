@@ -10,6 +10,7 @@ import {
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useDebouncedCallback } from "use-debounce";
+import { cn } from "@/lib/utils";
 
 interface SidebarItemProps {
   note: Note;
@@ -21,10 +22,13 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
   const setOpen = useConfigStore((state) => state.toggleMenu);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { setSelectedNote, updateNote } = useNoteStore((state) => ({
-    setSelectedNote: state.setSelectedNote,
-    updateNote: state.updateNote,
-  }));
+  const { setSelectedNote, updateNote, deleteNote, selectedNoteId } =
+    useNoteStore((state) => ({
+      setSelectedNote: state.setSelectedNote,
+      updateNote: state.updateNote,
+      deleteNote: state.deleteNote,
+      selectedNoteId: state.selectedNote?.id,
+    }));
 
   const handleItemClick = useDebouncedCallback(() => {
     if (isEditing) return;
@@ -64,14 +68,23 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
       setIsEditing(false);
       event.preventDefault();
       event.stopPropagation();
-      updateNote(note.id, { ...note, title: text });
+      if (text.length > 0) {
+        updateNote(note.id, { ...note, title: text });
+      } else {
+        setText(note.title);
+      }
     }
   };
 
   return (
-    <div className="flex rounded transition-colors hover:bg-neutral-800">
+    <div
+      className={cn(
+        "flex flex-row rounded transition-colors hover:bg-neutral-800",
+        note.id === selectedNoteId && "bg-neutral-800",
+      )}
+    >
       <button
-        className="flex w-full items-center gap-2 px-2 py-1"
+        className="flex w-full flex-1 items-center gap-2 px-2 py-1"
         onClick={handleItemClick}
       >
         <FileText className="h-4 w-4 text-neutral-500" />
@@ -96,17 +109,19 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
         </div>
       </button>
       <DropdownMenu>
-        <DropdownMenuTrigger className="absolute right-3 m-0.5 rounded p-0.5 hover:bg-neutral-700/50">
+        <DropdownMenuTrigger className="m-0.5 rounded p-0.5 hover:bg-neutral-700/50">
           <EllipsisVertical className="h-4 w-4 text-neutral-500" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="flex flex-col">
           <DropdownMenuItem asChild>
             <button onClick={handleChangeName}>
               <span className="text-xs">Change name</span>
             </button>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <span className="text-xs">Delete</span>
+          <DropdownMenuItem asChild>
+            <button onClick={() => deleteNote(selectedNoteId!)}>
+              <span className="text-xs">Delete</span>
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

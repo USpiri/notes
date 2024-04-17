@@ -19,6 +19,7 @@ export const Sidebar = () => {
   }));
 
   const createNote = useNoteStore((state) => state.createNote);
+  const createFodler = useNoteStore((state) => state.createFolder);
 
   return (
     <aside className="fixed z-20 bg-neutral-950 sm:relative sm:flex">
@@ -38,7 +39,12 @@ export const Sidebar = () => {
             >
               <SquarePen className="h-3.5 w-3.5" />
             </Button>
-            <Button variant="outline" size="icon" className="h-7 w-7">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={createFodler}
+            >
               <FolderPlus className="h-3.5 w-3.5" />
             </Button>
             <ConfigDialog />

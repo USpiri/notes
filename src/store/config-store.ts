@@ -17,7 +17,7 @@ export const useConfigStore = create<ConfigState>()((set) => ({
   content: "",
   vertical: true,
   editable: true,
-  openMenu: false,
+  openMenu: true,
   setContent: (content) => set(() => ({ content })),
   setVertical: (value) => {
     set(() => ({ vertical: value }));

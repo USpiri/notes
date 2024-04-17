@@ -8,6 +8,6 @@
   @apply w-screen border-neutral-800 sm:w-64;
 }
 
-.tab input:checked ~ .content {
+.tab .tab-header:has(input:checked) ~ .content {
   max-height: 10rem;
 }
