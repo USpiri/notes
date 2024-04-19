@@ -56,7 +56,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
       editorProps: {
         attributes: {
           class:
-            "prose prose-sm focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
+            "prose prose-sm text-wrap focus:outline-none prose-invert prose-headings:font-medium prose-neutral max-w-none min-h-full",
         },
       },
       onUpdate: ({ editor }) => {
@@ -81,7 +81,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
       <EditorMenu vertical={vertical} editable={editable} editor={editor} />
       <div
         className={cn(
-          "mt-6",
+          "mt-6 truncate",
           vertical ? "flex flex-1 px-4 md:px-8" : "w-full px-6 md:px-12",
         )}
       >
