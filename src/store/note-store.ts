@@ -17,21 +17,23 @@ interface NoteState {
   setSelectedNote: (note: Note) => void;
 }
 
+const defaultNote = {
+  id: "123",
+  title: "Custom Editor",
+  content: CONTENT,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 const noteState: StateCreator<NoteState> = (set) => ({
   root: {
     id: "root",
     name: "Root",
-    notes: [
-      {
-        id: "123",
-        title: "Custom Editor",
-        content: CONTENT,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
+    notes: [defaultNote],
     folders: [],
   },
+  selectedNote: defaultNote,
+
   createNote: () =>
     set((state) => ({
       root: { ...state.root, notes: [...state.root.notes, createNewNote()] },
@@ -69,13 +71,6 @@ const noteState: StateCreator<NoteState> = (set) => ({
   deleteNote: (id) => {
     set((state) => {
       const updatedRoot = deleteNoteInFolders(id, state.root);
-      const defaultNote = {
-        id: "123",
-        title: "Custom Editor",
-        content: CONTENT,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
       const newSelectedNote =
         state.selectedNote?.id === id ? defaultNote : state.selectedNote;
       return {
@@ -87,13 +82,6 @@ const noteState: StateCreator<NoteState> = (set) => ({
   deleteFolder: (id) => {
     set((state) => {
       const updatedRoot = deleteFolderInFolders(id, state.root);
-      const defaultNote = {
-        id: "123",
-        title: "Custom Editor",
-        content: CONTENT,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
       const newSelectedNote =
         findNoteById(state.selectedNote?.id!, state.root) === null
           ? defaultNote
