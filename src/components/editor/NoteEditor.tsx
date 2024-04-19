@@ -7,12 +7,14 @@ import { EditorMenu } from "./EditorMenu";
 import Underline from "@tiptap/extension-underline";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import "./editor.css";
 import Link from "@tiptap/extension-link";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect } from "react";
 import { CalloutExtension } from "./extensions/callout/callout";
+import lowlight from "./extensions/lowlight-codeblock/lowlight";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -32,7 +34,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
       autofocus: true,
       extensions: [
         SlashCommand,
-        StarterKit,
+        StarterKit.configure({ codeBlock: false }),
         Underline,
         TaskList,
         TaskItem.configure({
@@ -44,6 +46,10 @@ export const NoteEditor = (props: NoteEditorProps) => {
         }),
         CalloutExtension,
         Placeholder,
+        CodeBlockLowlight.configure({
+          defaultLanguage: "plaintext",
+          lowlight,
+        }),
       ],
       content,
       editable,

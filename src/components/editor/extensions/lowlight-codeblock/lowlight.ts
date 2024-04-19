@@ -1,0 +1,36 @@
+import { common, createLowlight } from "lowlight";
+
+// Highlight imports
+import text from "highlight.js/lib/languages/plaintext";
+import html from "highlight.js/lib/languages/xml";
+import css from "highlight.js/lib/languages/css";
+import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
+import json from "highlight.js/lib/languages/json";
+import http from "highlight.js/lib/languages/http";
+import sql from "highlight.js/lib/languages/sql";
+import markdown from "highlight.js/lib/languages/markdown";
+import rust from "highlight.js/lib/languages/rust";
+import java from "highlight.js/lib/languages/java";
+import bash from "highlight.js/lib/languages/bash";
+import shell from "highlight.js/lib/languages/shell";
+
+// Theme
+import "highlight.js/styles/base16/onedark.min.css";
+
+const lowlight = createLowlight(common);
+lowlight.register("text", text);
+lowlight.register("html", html);
+lowlight.register("css", css);
+lowlight.register("js", js);
+lowlight.register("ts", ts);
+lowlight.register("json", json);
+lowlight.register("http", http);
+lowlight.register("sql", sql);
+lowlight.register("markdown", markdown);
+lowlight.register("rust", rust);
+lowlight.register("java", java);
+lowlight.register("bash", bash);
+lowlight.register("shell", shell);
+
+export default lowlight;
