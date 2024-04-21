@@ -10,6 +10,7 @@ interface NoteState {
   createNote: () => void;
   createFolder: () => void;
   createNoteInFolder: (id: string) => void;
+  createFolderInFolder: (id: string) => void;
   updateNote: (id: string, note: Note) => void;
   updateFodlerName: (id: string, name: string) => void;
   deleteNote: (id: string) => void;
@@ -42,7 +43,7 @@ const noteState: StateCreator<NoteState> = (set) => ({
     set((state) => ({
       root: {
         ...state.root,
-        folders: [...state.root.folders, createNewFodler()],
+        folders: [...state.root.folders, createNewFolder()],
       },
     })),
   createNoteInFolder: (id) => {
@@ -51,6 +52,13 @@ const noteState: StateCreator<NoteState> = (set) => ({
       return { root: updatedRoot };
     });
   },
+  createFolderInFolder: (id) => {
+    set((state) => {
+      const updatedRoot = newFolderInFolder(id, state.root);
+      return { root: updatedRoot };
+    });
+  },
+
   setSelectedNote: (note) => set(() => ({ selectedNote: note })),
   updateNote: (id, note) => {
     set((state) => {
@@ -169,12 +177,28 @@ const newNoteInFolder = (id: string, folder: Folder): Folder => {
   }
 };
 
-const createNewFodler = (): Folder => ({
+const createNewFolder = (): Folder => ({
   id: generateUUID(),
   name: "New folder",
   notes: [],
   folders: [],
 });
+
+const newFolderInFolder = (id: string, folder: Folder): Folder => {
+  const newFolder = createNewFolder();
+  const updatedFolders = folder.folders.map((f) =>
+    f.id === id ? { ...f, folders: [...f.folders, newFolder] } : f,
+  );
+
+  if (updatedFolders.some((f) => f.id === id)) {
+    return { ...folder, folders: updatedFolders };
+  } else {
+    const updatedSubFolders = updatedFolders.map((f) =>
+      newFolderInFolder(id, f),
+    );
+    return { ...folder, folders: updatedSubFolders };
+  }
+};
 
 const updatedFolderInFolders = (
   id: string,

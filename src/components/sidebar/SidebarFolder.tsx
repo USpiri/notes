@@ -33,6 +33,7 @@ export const SidebarFolder = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const updateFolderName = useNoteStore((state) => state.updateFodlerName);
   const createNote = useNoteStore((state) => state.createNoteInFolder);
+  const createFolder = useNoteStore((state) => state.createFolderInFolder);
 
   const handleOpenFolder = useDebouncedCallback(() => {
     if (isEditing) return;
@@ -86,6 +87,11 @@ export const SidebarFolder = ({
     createNote(id);
   };
 
+  const handleNewFolder = () => {
+    setOpen(true);
+    createFolder(id);
+  };
+
   return (
     <div className="tab">
       <div className="tab-header flex h-auto flex-row rounded hover:bg-neutral-800">
@@ -133,7 +139,11 @@ export const SidebarFolder = ({
                 <span className="text-xs">Create note</span>
               </button>
             </DropdownMenuItem>
-
+            <DropdownMenuItem asChild>
+              <button onClick={handleNewFolder}>
+                <span className="text-xs">Create folder</span>
+              </button>
+            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <button onClick={handleChangeName}>
                 <span className="text-xs">Change name</span>
@@ -155,7 +165,10 @@ export const SidebarFolder = ({
           )}
         >
           {folders.map((folder) => (
-            <li key={folder.id}>
+            <li
+              key={folder.id}
+              className="ml-4 border-l border-neutral-700 pl-2"
+            >
               <SidebarFolder {...folder} />
             </li>
           ))}
