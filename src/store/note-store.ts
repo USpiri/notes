@@ -221,13 +221,17 @@ const updatedFolderInFolders = (
 
 const deleteFolderInFolders = (id: string, folder: Folder): Folder => {
   const filteredFolders = folder.folders.filter((f) => f.id !== id);
-  const updatedFolders = filteredFolders.map((sub) =>
-    deleteNoteInFolders(id, sub),
-  );
-  return {
-    ...folder,
-    folders: updatedFolders,
-  };
+  if (filteredFolders.length < folder.folders.length) {
+    return { ...folder, folders: filteredFolders };
+  } else {
+    const updatedFolders = filteredFolders.map((sub) =>
+      deleteFolderInFolders(id, sub),
+    );
+    return {
+      ...folder,
+      folders: updatedFolders,
+    };
+  }
 };
 
 const generateUUID = () => {
