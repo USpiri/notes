@@ -84,12 +84,13 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
       )}
     >
       <button
-        className="flex w-full flex-1 items-center gap-2 px-2 py-1"
+        className="flex w-full flex-1 items-center gap-2 overflow-hidden px-2 py-1"
         onClick={handleItemClick}
+        title={text}
       >
-        <FileText className="h-4 w-4 text-neutral-500" />
+        <FileText className="h-4 w-4 flex-none text-neutral-500" />
         <div
-          className="text-xs font-semibold"
+          className="truncate text-xs font-semibold"
           onDoubleClick={handleDoubleClick}
         >
           {isEditing ? (

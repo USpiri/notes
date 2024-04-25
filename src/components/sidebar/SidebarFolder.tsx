@@ -105,13 +105,13 @@ export const SidebarFolder = ({
             checked={open}
           />
           <label
-            className="flex flex-1 cursor-pointer select-none items-center gap-2 px-2 py-1 text-xs font-semibold transition-transform active:scale-95"
+            className="flex flex-1 cursor-pointer select-none items-center gap-2 overflow-hidden px-2 py-1 text-xs font-semibold transition-transform active:scale-95"
             htmlFor={`cb-${id}`}
           >
             {open ? (
-              <FolderOpen className="h-4 w-4 text-neutral-500" />
+              <FolderOpen className="h-4 w-4 flex-none text-neutral-500" />
             ) : (
-              <FolderIcon className="h-4 w-4 text-neutral-500" />
+              <FolderIcon className="h-4 w-4 flex-none text-neutral-500" />
             )}
             {isEditing ? (
               <input
@@ -125,7 +125,9 @@ export const SidebarFolder = ({
                 onKeyDown={handleKeyDown}
               />
             ) : (
-              <span onDoubleClick={handleDoubleClick}>{name}</span>
+              <span onDoubleClick={handleDoubleClick} className="truncate">
+                {name}
+              </span>
             )}
           </label>
         </>
