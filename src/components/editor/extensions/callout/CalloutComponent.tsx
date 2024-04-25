@@ -64,16 +64,16 @@ export const Callout = (props: any) => {
 
   return (
     <NodeViewWrapper
-      className={`content ${name} my-3 border-l-4 rounded px-2 py-2 flex flex-col gap-1 relative prose-p:my-2`}
+      className={`content ${name} relative my-3 flex flex-col gap-1 rounded border-l-4 px-2 py-2 prose-p:my-2`}
       as="aside"
     >
-      <div className="flex gap-1 items-center" contentEditable={false}>
+      <div className="flex items-center gap-1" contentEditable={false}>
         <DropdownMenu>
           <DropdownMenuTrigger
             disabled={!props.editor.isEditable}
-            className="rounded hover:bg-neutral-50/5 active:scale-90 focus:outline-none active:bg-neutral-50/5 transition-all p-1"
+            className="rounded p-1 transition-all hover:bg-neutral-50/5 focus:outline-none active:scale-90 active:bg-neutral-50/5"
           >
-            <Icon className={`icon ${name} w-4 h-4`} />
+            <Icon className={`icon ${name} h-4 w-4`} />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {calloutItems.map((item) => (
@@ -82,7 +82,7 @@ export const Callout = (props: any) => {
                 onClick={() => changeName(item.name, item.label)}
               >
                 <div className="flex items-center gap-2">
-                  <item.icon className={`h-4 w-4 icon ${item.name}`} />
+                  <item.icon className={`icon h-4 w-4 ${item.name}`} />
                   {item.label}
                 </div>
               </DropdownMenuItem>
