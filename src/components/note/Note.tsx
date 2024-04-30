@@ -23,6 +23,8 @@ export const Note = () => {
   const handleEditorUpdate = useDebouncedCallback((editor: Editor) => {
     if (!selectedNote) return;
     const newContent = editor.getHTML();
+    console.log(newContent);
+    
     setContent(newContent);
     updateNote(selectedNote.id, {
       ...selectedNote,

@@ -15,6 +15,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect } from "react";
 import { CalloutExtension } from "./extensions/callout/callout";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
+import { MathDisplay } from "./extensions/math/math-display/math-display";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -37,6 +38,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
         StarterKit.configure({ codeBlock: false }),
         Underline,
         TaskList,
+        MathDisplay,
         TaskItem.configure({
           nested: true,
         }),

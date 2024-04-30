@@ -193,6 +193,14 @@ export const MENU: MenuGroup[] = [
         action: (editor) => editor.chain().focus().toggleCallout().run(),
         shouldBeMarked: (editor) => editor.isActive("callout"),
       },
+      {
+        name: "math-display",
+        label: "Math Display",
+        icon: Lightbulb,
+        description: "Add a math display",
+        action: (editor) => editor.chain().focus().toggleMathDisplay().run(),
+        shouldBeMarked: (editor) => editor.isActive("mathDisplay"),
+      },
     ],
   },
 ];
