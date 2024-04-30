@@ -2,16 +2,24 @@ import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
 import React, { ChangeEvent, useEffect, KeyboardEvent, useState } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import "./math-display.css";
+import { cn } from "@/lib/utils";
 
 export const MathDisplayComponent = (props: NodeViewProps) => {
   const { latex } = props.node.attrs;
+  const selected = props.selected;
 
   const [isEditing, setIsEditing] = useState(false);
   const [formula, setFormula] = useState(latex);
 
+  const setKatexFormula = () => {
+    setFormula(katex.renderToString(latex, { throwOnError: false }));
+  };
+
   const handleWrite = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const text = event.target.value;
+    props.updateAttributes({
+      latex: text,
+    });
     setFormula(text);
   };
 
@@ -23,7 +31,12 @@ export const MathDisplayComponent = (props: NodeViewProps) => {
   };
 
   const handleEnterKey = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter") {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey &&
+      !event.ctrlKey &&
+      !event.altKey
+    ) {
       setIsEditing(false);
       event.preventDefault();
       event.stopPropagation();
@@ -33,35 +46,38 @@ export const MathDisplayComponent = (props: NodeViewProps) => {
     }
   };
 
+  const handleClick = () => {
+    setIsEditing(true);
+  };
+
   useEffect(() => {
-    setFormula(katex.renderToString(latex, { throwOnError: false }));
-    // console.log(katex.renderToString(latex));
-  }, [setFormula, latex]);
+    setKatexFormula();
+  });
 
   return (
     <NodeViewWrapper>
       <div
-        className="flex w-full flex-col selection:bg-red-400"
-        contentEditable={false}
+        className={cn(
+          "flex w-full flex-col rounded",
+          selected && "outline outline-1 outline-neutral-700",
+        )}
         onBlur={handleExit}
+        onClick={handleClick}
+        contentEditable={false}
       >
-        {isEditing ? (
+        {isEditing && (
           <textarea
-            rows={10}
-            className="math-textarea mb-5 mt-2 h-10 rounded bg-neutral-700"
+            className="math-textarea mb-2 min-h-10 rounded bg-black/40 px-4 py-2 focus:outline-none"
             onChange={handleWrite}
             value={latex}
             onKeyDown={handleEnterKey}
+            autoFocus
           />
-        ) : (
-          <div className="flex justify-center">
-            <div
-              onClick={() => setIsEditing(!isEditing)}
-              dangerouslySetInnerHTML={{ __html: formula }}
-              className="cursor-pointer select-none rounded px-2 py-1 transition-colors duration-150 hover:bg-neutral-800"
-            ></div>
-          </div>
         )}
+        <div
+          dangerouslySetInnerHTML={{ __html: formula }}
+          className="cursor-pointer rounded p-2 text-center transition-colors duration-150 hover:bg-neutral-800"
+        />
       </div>
     </NodeViewWrapper>
   );

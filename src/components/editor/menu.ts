@@ -14,6 +14,7 @@ import {
   ListTodo,
   Minus,
   Quote,
+  Sigma,
   Strikethrough,
   UnderlineIcon,
 } from "lucide-react";
@@ -196,10 +197,10 @@ export const MENU: MenuGroup[] = [
       {
         name: "math-display",
         label: "Math Display",
-        icon: Lightbulb,
+        icon: Sigma,
         description: "Add a math display",
         action: (editor) => editor.chain().focus().toggleMathDisplay().run(),
-        shouldBeMarked: (editor) => editor.isActive("mathDisplay"),
+        shouldBeMarked: (editor) => editor.isActive("math-display"),
       },
     ],
   },

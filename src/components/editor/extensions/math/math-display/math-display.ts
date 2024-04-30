@@ -1,8 +1,8 @@
 import {
+  InputRule,
   Node,
   ReactNodeViewRenderer,
   mergeAttributes,
-  nodeInputRule,
 } from "@tiptap/react";
 import { MathDisplayComponent } from "./MathDisplayComponents";
 
@@ -14,17 +14,23 @@ declare module "@tiptap/core" {
   }
 }
 
+const name = "mathDisplay";
+const tag = "math-display";
+
 export const MathDisplay = Node.create({
-  name: "mathDisplay",
-  group: "block",
+  name,
+  group: "block math",
+  content: "text*",
   atom: true,
+  selectable: true,
+  code: true,
 
   parseHTML() {
-    return [{ tag: this.name }];
+    return [{ tag }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [this.name, mergeAttributes(HTMLAttributes), 0];
+    return [tag, mergeAttributes({ class: "math-node" }, HTMLAttributes), 0];
   },
 
   addAttributes() {
@@ -41,9 +47,18 @@ export const MathDisplay = Node.create({
 
   addInputRules() {
     return [
-      nodeInputRule({
-        find: /^\$\$?[\s\n]$/,
-        type: this.type,
+      new InputRule({
+        find: /^(\$\$)[\s]$/,
+        handler: ({ state, range }) => {
+          const { tr } = state;
+          const start = range.from;
+          const end = range.to;
+
+          tr.insert(start - 1, this.type.create()).delete(
+            tr.mapping.map(start),
+            tr.mapping.map(end),
+          );
+        },
       }),
     ];
   },
@@ -53,7 +68,8 @@ export const MathDisplay = Node.create({
       toggleMathDisplay:
         () =>
         ({ commands }) => {
-          return commands.toggleWrap(this.name);
+          commands.insertContent("<p></p>");
+          return commands.toggleNode(this.name, "paragraph");
         },
     };
   },
