@@ -47,7 +47,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
         }),
         CalloutExtension,
         Placeholder,
-        CodeBlockLowlight.configure({
+        CodeBlockLowlight.extend({ excludes: "math" }).configure({
           defaultLanguage: "plaintext",
           lowlight,
         }),
