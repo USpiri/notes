@@ -12,7 +12,13 @@ export const MathDisplayComponent = (props: NodeViewProps) => {
   const [formula, setFormula] = useState(latex);
 
   const setKatexFormula = () => {
-    setFormula(katex.renderToString(latex, { throwOnError: false }));
+    setFormula(
+      katex.renderToString(latex, {
+        throwOnError: false,
+        errorColor: "#ef4444",
+        globalGroup: true,
+      }),
+    );
   };
 
   const handleWrite = (event: ChangeEvent<HTMLTextAreaElement>) => {
