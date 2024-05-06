@@ -6,7 +6,7 @@ import {
   Folder as FolderIcon,
   FolderOpen,
 } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, Suspense, useRef, useState } from "react";
 import { SidebarItem } from "./SidebarItem";
 import { cn } from "@/lib/utils";
 import {
@@ -176,7 +176,9 @@ export const SidebarFolder = ({
           ))}
           {notes.map((note) => (
             <li key={note.id} className="ml-4 border-l border-neutral-700 pl-2">
-              <SidebarItem note={note} />
+              <Suspense>
+                <SidebarItem note={note} />
+              </Suspense>
             </li>
           ))}
         </ul>

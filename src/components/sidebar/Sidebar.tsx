@@ -9,6 +9,7 @@ import { SidebarFolder } from "./SidebarFolder";
 import { Separator } from "../ui/separator";
 import { useNoteStore } from "@/store/note-store";
 import { useConfigStore } from "@/store/config-store";
+import { Suspense } from "react";
 
 export const Sidebar = () => {
   const open = useConfigStore((state) => state.openMenu);
@@ -58,7 +59,9 @@ export const Sidebar = () => {
             ))}
             {folder.notes.map((note) => (
               <li key={note.id}>
-                <SidebarItem note={note} />
+                <Suspense>
+                  <SidebarItem note={note} />
+                </Suspense>
               </li>
             ))}
           </ul>
