@@ -16,11 +16,14 @@ export const Note = () => {
   const router = useRouter();
 
   const updateNote = useNoteStore((state) => state.updateNote);
-  const root = (
-    JSON.parse(localStorage.getItem("note-store")!) as {
-      state: { root: Folder };
-    }
-  ).state.root;
+  const root =
+    typeof window !== "undefined"
+      ? (
+          JSON.parse(localStorage.getItem("note-store")!) as {
+            state: { root: Folder };
+          }
+        ).state.root
+      : { id: "", name: "", folders: [], notes: [] };
   const selectedNote = findNoteById(noteId!, root);
   const editor = useConfigStore((state) => ({
     vertical: state.vertical,
