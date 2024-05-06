@@ -1,5 +1,4 @@
 import { Note } from "@/models/note.interface";
-import { useConfigStore } from "@/store/config-store";
 import { useNoteStore } from "@/store/note-store";
 import { EllipsisVertical, FileText } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
@@ -9,8 +8,9 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { useDebouncedCallback } from "use-debounce";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 
 interface SidebarItemProps {
   note: Note;
@@ -19,22 +19,14 @@ interface SidebarItemProps {
 export const SidebarItem = ({ note }: SidebarItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(note.title);
-  const setOpen = useConfigStore((state) => state.toggleMenu);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { setSelectedNote, updateNote, deleteNote, selectedNoteId } =
-    useNoteStore((state) => ({
-      setSelectedNote: state.setSelectedNote,
-      updateNote: state.updateNote,
-      deleteNote: state.deleteNote,
-      selectedNoteId: state.selectedNote?.id,
-    }));
+  const { id } = useParams<{ id: string }>();
 
-  const handleItemClick = useDebouncedCallback(() => {
-    if (isEditing) return;
-    setOpen(false);
-    setSelectedNote(note);
-  }, 200);
+  const { updateNote, deleteNote } = useNoteStore((state) => ({
+    updateNote: state.updateNote,
+    deleteNote: state.deleteNote,
+  }));
 
   const handleDoubleClick = () => {
     setIsEditing(true);
@@ -56,11 +48,7 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
 
   const handleBlur = () => {
     setIsEditing(false);
-    if (text.length > 0) {
-      updateNote(note.id, { ...note, title: text });
-    } else {
-      setText(note.title);
-    }
+    validateText();
   };
 
   const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -68,11 +56,15 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
       setIsEditing(false);
       event.preventDefault();
       event.stopPropagation();
-      if (text.length > 0) {
-        updateNote(note.id, { ...note, title: text });
-      } else {
-        setText(note.title);
-      }
+      validateText();
+    }
+  };
+
+  const validateText = () => {
+    if (text.length > 0) {
+      updateNote(note.id, { ...note, title: text });
+    } else {
+      setText(note.title);
     }
   };
 
@@ -80,19 +72,17 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
     <div
       className={cn(
         "flex flex-row rounded transition-colors hover:bg-neutral-800",
-        note.id === selectedNoteId && "bg-neutral-800",
+        note.id === id && "bg-neutral-800",
       )}
     >
-      <button
+      <Link
+        href={{ pathname: "/", query: { note: note.id } }}
         className="flex w-full flex-1 items-center gap-2 overflow-hidden px-2 py-1"
-        onClick={handleItemClick}
+        onDoubleClick={handleDoubleClick}
         title={text}
       >
         <FileText className="h-4 w-4 flex-none text-neutral-500" />
-        <div
-          className="truncate text-xs font-semibold"
-          onDoubleClick={handleDoubleClick}
-        >
+        <div className="truncate text-xs font-semibold">
           {isEditing ? (
             <input
               autoFocus
@@ -108,7 +98,7 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
             <span>{text}</span>
           )}
         </div>
-      </button>
+      </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className="m-0.5 rounded p-0.5 hover:bg-neutral-700/50">
           <EllipsisVertical className="h-4 w-4 text-neutral-500" />

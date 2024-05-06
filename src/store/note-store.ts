@@ -6,7 +6,6 @@ import { devtools, persist } from "zustand/middleware";
 
 interface NoteState {
   root: Folder;
-  selectedNote?: Note;
   createNote: () => void;
   createFolder: () => void;
   createNoteInFolder: (id: string) => void;
@@ -15,11 +14,10 @@ interface NoteState {
   updateFodlerName: (id: string, name: string) => void;
   deleteNote: (id: string) => void;
   deleteFolder: (id: string) => void;
-  setSelectedNote: (note: Note) => void;
 }
 
 const defaultNote = {
-  id: "123",
+  id: "U18DIC224RG",
   title: "Custom Editor",
   content: CONTENT,
   createdAt: new Date(),
@@ -33,7 +31,6 @@ const noteState: StateCreator<NoteState> = (set) => ({
     notes: [defaultNote],
     folders: [],
   },
-  selectedNote: defaultNote,
 
   createNote: () =>
     set((state) => ({
@@ -59,7 +56,6 @@ const noteState: StateCreator<NoteState> = (set) => ({
     });
   },
 
-  setSelectedNote: (note) => set(() => ({ selectedNote: note })),
   updateNote: (id, note) => {
     set((state) => {
       const updatedRoot = updateNoteInFolders(id, note, state.root);
@@ -79,24 +75,16 @@ const noteState: StateCreator<NoteState> = (set) => ({
   deleteNote: (id) => {
     set((state) => {
       const updatedRoot = deleteNoteInFolders(id, state.root);
-      const newSelectedNote =
-        state.selectedNote?.id === id ? defaultNote : state.selectedNote;
       return {
         root: updatedRoot,
-        selectedNote: newSelectedNote,
       };
     });
   },
   deleteFolder: (id) => {
     set((state) => {
       const updatedRoot = deleteFolderInFolders(id, state.root);
-      const newSelectedNote =
-        findNoteById(state.selectedNote?.id!, state.root) === null
-          ? defaultNote
-          : state.selectedNote;
       return {
         root: updatedRoot,
-        selectedNote: newSelectedNote,
       };
     });
   },
@@ -106,7 +94,7 @@ export const useNoteStore = create<NoteState>()(
   devtools(persist(noteState, { name: "note-store" })),
 );
 
-const findNoteById = (id: string, folder: Folder): Note | null => {
+export const findNoteById = (id: string, folder: Folder): Note | null => {
   const note = folder.notes.find((note) => note.id === id);
   if (note) return note;
   for (const subfolder of folder.folders) {
