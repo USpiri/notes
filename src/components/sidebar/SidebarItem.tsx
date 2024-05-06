@@ -9,7 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 interface SidebarItemProps {
@@ -21,7 +21,8 @@ export const SidebarItem = ({ note }: SidebarItemProps) => {
   const [text, setText] = useState(note.title);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { id } = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("note");
 
   const { updateNote, deleteNote } = useNoteStore((state) => ({
     updateNote: state.updateNote,
