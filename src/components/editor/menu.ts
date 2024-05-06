@@ -177,12 +177,28 @@ export const MENU: MenuGroup[] = [
             editor!.chain().focus().extendMarkRange("link").unsetLink().run();
             return;
           }
-          editor!
-            .chain()
-            .focus()
-            .extendMarkRange("link")
-            .setLink({ href: url, target: "_blank" })
-            .run();
+
+          const internalUrls = [
+            "https://uspiri-notes.vercel.app/",
+            "https://notes.uspiri.com/",
+            "http://localhost:3000/",
+          ];
+
+          const isInternalUrl = internalUrls.some((internal) =>
+            url.includes(internal),
+          );
+
+          const target = isInternalUrl ? "_self" : "_blank";
+
+          const rel = isInternalUrl ? "prefetch" : "noopener noreferrer";
+
+          if (url.includes(""))
+            editor!
+              .chain()
+              .focus()
+              .extendMarkRange("link")
+              .setLink({ href: url, target, rel })
+              .run();
         },
         shouldBeMarked: (editor) => editor.isActive("link"),
       },
