@@ -170,7 +170,7 @@ export const MENU: MenuGroup[] = [
         description: "Add external link",
         action: (editor) => {
           const previousUrl = editor!.getAttributes("link").href;
-          const url = window.prompt("URL", previousUrl);
+          let url = window.prompt("URL", previousUrl);
 
           if (url === null) return;
           if (url === "") {
@@ -184,9 +184,11 @@ export const MENU: MenuGroup[] = [
             "http://localhost:3000/",
           ];
 
-          const isInternalUrl = internalUrls.some((internal) =>
-            url.includes(internal),
-          );
+          if (/^note=/.test(url)) url = `/?${url}`;
+
+          const isInternalUrl =
+            internalUrls.some((internal) => url.includes(internal)) ||
+            /^\/?\?note=/.test(url);
 
           const target = isInternalUrl ? "_self" : "_blank";
 
