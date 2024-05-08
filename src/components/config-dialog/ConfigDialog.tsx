@@ -2,6 +2,7 @@
 import React from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -12,6 +13,16 @@ import { Button } from "../ui/button";
 import { Settings } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { useConfigStore } from "@/store/config-store";
+import { Separator } from "../ui/separator";
+import Link from "next/link";
+
+const links = [
+  { label: "Home", href: "/?note=U18DIC224RG" },
+  { label: "Changelog", href: "/?note=changelog" },
+  { label: "Syntax Higlight", href: "/?note=syntax" },
+  { label: "Math Plugin", href: "/?note=math" },
+  { label: "Routing", href: "/?note=routing" },
+];
 
 export const ConfigDialog = () => {
   const { vertical, editable, setVertical, setEditable } = useConfigStore(
@@ -50,6 +61,19 @@ export const ConfigDialog = () => {
           <div className="flex items-center justify-between text-neutral-500">
             <span className="text-sm">Inline (Próximamente...)</span>
             <Switch disabled={true} />
+          </div>
+          <Separator />
+          <div className="flex flex-wrap items-center justify-center gap-5">
+            {links.map((link) => (
+              <DialogClose asChild key={link.label}>
+                <Link
+                  href={link.href}
+                  className="text-sm transition-colors hover:text-neutral-400"
+                >
+                  {link.label}
+                </Link>
+              </DialogClose>
+            ))}
           </div>
         </div>
       </DialogContent>
