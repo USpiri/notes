@@ -1,4 +1,4 @@
-import { CONTENT } from "@/lib/content";
+import { MAIN } from "@/lib/content";
 import { Folder } from "@/models/folder.interface";
 import { Note } from "@/models/note.interface";
 import { type StateCreator, create } from "zustand";
@@ -18,8 +18,8 @@ interface NoteState {
 
 const defaultNote = {
   id: "U18DIC224RG",
-  title: "Custom Editor",
-  content: CONTENT,
+  title: "Welcome! 📝",
+  content: MAIN,
   createdAt: new Date(),
   updatedAt: new Date(),
 };

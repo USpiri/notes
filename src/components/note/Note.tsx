@@ -7,7 +7,7 @@ import { findNoteById, useNoteStore } from "@/store/note-store";
 import { useConfigStore } from "@/store/config-store";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CONTENT } from "@/lib/content";
+import { MAIN, contentList } from "@/lib/content";
 import { Folder } from "@/models/folder.interface";
 
 export const Note = () => {
@@ -25,6 +25,7 @@ export const Note = () => {
         ).state.root
       : { id: "", name: "", folders: [], notes: [] };
   const selectedNote = findNoteById(noteId!, root);
+  const defaultContent = contentList[noteId!];
   const editor = useConfigStore((state) => ({
     vertical: state.vertical,
     editable: state.editable,
@@ -37,8 +38,8 @@ export const Note = () => {
   }, [noteId]);
 
   const validateContent = () => {
-    setContent(selectedNote?.content ?? CONTENT);
-    if (!selectedNote) router.push("/?note=U18DIC224RG");
+    setContent(selectedNote?.content ?? defaultContent ?? MAIN);
+    if (!selectedNote && !defaultContent) router.push("/?note=U18DIC224RG");
   };
 
   const handleEditorUpdate = useDebouncedCallback((editor: Editor) => {
