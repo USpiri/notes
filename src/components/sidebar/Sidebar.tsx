@@ -51,7 +51,7 @@ export const Sidebar = () => {
             <ConfigDialog />
           </div>
           <Separator />
-          <ul className="flex flex-col gap-1">
+          <ul className="flex max-h-[85vh] flex-col gap-1 overflow-auto">
             {folder.folders.map((folder) => (
               <li key={folder.id}>
                 <SidebarFolder {...folder} />
