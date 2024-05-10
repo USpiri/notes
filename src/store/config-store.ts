@@ -1,24 +1,19 @@
-import { create } from "zustand";
-
-// TODO: Maje persistent store
+import { StateCreator, create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface ConfigState {
-  content: string;
   vertical: boolean;
   editable: boolean;
   openMenu: boolean;
-  setContent: (content: string) => void;
   setVertical: (value: boolean) => void;
   setEditable: (value: boolean) => void;
   toggleMenu: (value?: boolean) => void;
 }
 
-export const useConfigStore = create<ConfigState>()((set) => ({
-  content: "",
+const configState: StateCreator<ConfigState> = (set) => ({
   vertical: true,
   editable: true,
   openMenu: true,
-  setContent: (content) => set(() => ({ content })),
   setVertical: (value) => {
     set(() => ({ vertical: value }));
   },
@@ -28,4 +23,8 @@ export const useConfigStore = create<ConfigState>()((set) => ({
   toggleMenu: (value) => {
     set((state) => ({ openMenu: value ?? !state.openMenu }));
   },
-}));
+});
+
+export const useConfigStore = create<ConfigState>()(
+  persist(configState, { name: "config-store" }),
+);
