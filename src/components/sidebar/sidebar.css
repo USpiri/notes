@@ -9,5 +9,5 @@
 }
 
 .tab .tab-header:has(input:checked) ~ .content {
-  max-height: 10rem;
+  max-height: fit-content;
 }
