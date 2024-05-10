@@ -13,7 +13,7 @@ interface ConfigState {
 const configState: StateCreator<ConfigState> = (set) => ({
   vertical: true,
   editable: true,
-  openMenu: true,
+  openMenu: false,
   setVertical: (value) => {
     set(() => ({ vertical: value }));
   },
