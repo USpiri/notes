@@ -1,9 +1,15 @@
+.content {
+  code:not(pre code) {
+    @apply rounded bg-neutral-950/70 px-1.5 py-1 font-light text-neutral-300;
+  }
+}
+
 .note {
   &.icon {
     @apply text-cyan-500;
   }
   &.content {
-    @apply bg-cyan-500/15 border-l-cyan-600;
+    @apply border-l-cyan-600 bg-cyan-500/15;
   }
 }
 .caution {
@@ -11,7 +17,7 @@
     @apply text-amber-500;
   }
   &.content {
-    @apply bg-amber-500/15 border-l-amber-600;
+    @apply border-l-amber-600 bg-amber-500/15;
   }
 }
 .error {
@@ -19,7 +25,7 @@
     @apply text-red-500;
   }
   &.content {
-    @apply bg-red-500/15 border-l-red-600;
+    @apply border-l-red-600 bg-red-500/15;
   }
 }
 .success {
@@ -27,6 +33,6 @@
     @apply text-emerald-500;
   }
   &.content {
-    @apply bg-emerald-500/15 border-l-emerald-600;
+    @apply border-l-emerald-600 bg-emerald-500/15;
   }
 }

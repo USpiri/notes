@@ -52,7 +52,7 @@ blockquote {
 .tiptap {
   @apply prose-code:font-normal prose-code:before:contents prose-code:after:contents;
   code:not(pre code) {
-    @apply rounded bg-neutral-800/70 px-2 py-1 font-light text-neutral-300;
+    @apply rounded bg-neutral-700/50 px-1.5 py-1 font-light text-neutral-300;
   }
   pre {
     font-family: "JetBrainsMono", monospace;

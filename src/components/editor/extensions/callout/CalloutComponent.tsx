@@ -64,7 +64,7 @@ export const Callout = (props: any) => {
 
   return (
     <NodeViewWrapper
-      className={`content ${name} relative my-3 flex flex-col gap-1 rounded border-l-4 px-2 py-2 prose-p:my-2`}
+      className={`content ${name} relative my-3 flex flex-col gap-1 rounded border-l-4 px-2 py-2 prose-headings:my-3 prose-p:my-1.5`}
       as="aside"
     >
       <div className="flex items-center gap-1" contentEditable={false}>
