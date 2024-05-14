@@ -12,6 +12,7 @@ export interface Command {
   label: string;
   description: string;
   aliases?: string[];
+  inline: boolean;
   icon: LucideIcon;
   action: (editor: Editor) => void;
   shouldBeHidden?: (editor: Editor) => boolean;

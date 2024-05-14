@@ -16,18 +16,24 @@ import { useEffect } from "react";
 import { CalloutExtension } from "./extensions/callout/callout";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
+import { BubbleMenu } from "./BubbleMenu";
 
 export interface NoteEditorProps {
   editorConfig: {
     vertical?: boolean;
     editable?: boolean;
+    inline?: boolean;
   };
   content: string;
   onUpdate?: (editor: Editor) => void;
 }
 
 export const NoteEditor = (props: NoteEditorProps) => {
-  const { vertical = false, editable = true } = props.editorConfig;
+  const {
+    vertical = false,
+    editable = true,
+    inline = false,
+  } = props.editorConfig;
   const { onUpdate, content } = props;
 
   const editor = useEditor(
@@ -80,7 +86,10 @@ export const NoteEditor = (props: NoteEditorProps) => {
 
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
-      <EditorMenu vertical={vertical} editable={editable} editor={editor} />
+      {editable && <BubbleMenu editor={editor} />}
+      {!inline && (
+        <EditorMenu vertical={vertical} editable={editable} editor={editor} />
+      )}
       <div
         className={cn(
           "mt-6 truncate",

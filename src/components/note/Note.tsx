@@ -29,6 +29,7 @@ export const Note = () => {
   const editor = useConfigStore((state) => ({
     vertical: state.vertical,
     editable: state.editable,
+    inline: state.inline,
   }));
 
   const [content, setContent] = useState("");

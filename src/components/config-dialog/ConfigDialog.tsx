@@ -25,14 +25,15 @@ const links = [
 ];
 
 export const ConfigDialog = () => {
-  const { vertical, editable, setVertical, setEditable } = useConfigStore(
-    (state) => ({
+  const { vertical, editable, inline, setVertical, setEditable, setInline } =
+    useConfigStore((state) => ({
       vertical: state.vertical,
       setVertical: state.setVertical,
       editable: state.editable,
       setEditable: state.setEditable,
-    }),
-  );
+      inline: state.inline,
+      setInline: state.setInline,
+    }));
 
   return (
     <Dialog>
@@ -58,9 +59,9 @@ export const ConfigDialog = () => {
             <Switch checked={vertical} onCheckedChange={setVertical} />
           </div>
 
-          <div className="flex items-center justify-between text-neutral-500">
-            <span className="text-sm">Inline (Próximamente...)</span>
-            <Switch disabled={true} />
+          <div className="flex items-center justify-between">
+            <span className="text-sm">Inline</span>
+            <Switch checked={inline} onCheckedChange={setInline} />
           </div>
           <Separator />
           <div className="flex flex-wrap items-center justify-center gap-5">
