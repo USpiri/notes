@@ -33,7 +33,8 @@ export const isTextSelected = ({ editor }: { editor: Editor }) => {
     empty ||
     isEmptyTextBlock ||
     !editor.isEditable ||
-    editor.isActive("codeBlock")
+    editor.isActive("codeBlock") ||
+    editor.isActive("link")
   ) {
     return false;
   }

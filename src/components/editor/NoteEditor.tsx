@@ -17,6 +17,7 @@ import { CalloutExtension } from "./extensions/callout/callout";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
 import { BubbleMenu } from "./BubbleMenu";
+import { LinkMenu } from "./link-menu/LinkMenu";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -86,7 +87,12 @@ export const NoteEditor = (props: NoteEditorProps) => {
 
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
-      {editable && <BubbleMenu editor={editor} />}
+      {editable && (
+        <>
+          <BubbleMenu editor={editor} />
+          <LinkMenu editor={editor} />
+        </>
+      )}
       {!inline && (
         <EditorMenu vertical={vertical} editable={editable} editor={editor} />
       )}
