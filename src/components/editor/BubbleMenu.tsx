@@ -1,10 +1,11 @@
 import { BubbleMenu as Bubble, isTextSelection } from "@tiptap/react";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import { MENU } from "./menu";
 import { Button } from "../ui/button";
 import { EditorView } from "@tiptap/pm/view";
 import { EditorState } from "@tiptap/pm/state";
 import { Editor } from "@tiptap/core";
+import { LinkPopover } from "./link-menu/LinkPopover";
 
 export interface ShouldShowProps {
   editor: Editor;
@@ -43,6 +44,16 @@ export const isTextSelected = ({ editor }: { editor: Editor }) => {
 };
 
 export const BubbleMenu = ({ editor }: { editor: Editor }) => {
+  const handleLink = useCallback(
+    (url: string, inNewTab?: boolean) =>
+      editor
+        .chain()
+        .focus()
+        .setLink({ href: url, target: inNewTab ? "_blank" : "" })
+        .run(),
+    [editor],
+  );
+
   return (
     <Bubble
       editor={editor}
@@ -57,24 +68,33 @@ export const BubbleMenu = ({ editor }: { editor: Editor }) => {
           <Fragment key={group.name}>
             {group.commands
               .filter((i) => i.inline)
-              .map((command) => (
-                <Button
-                  key={command.name}
-                  onClick={() => command.action(editor)}
-                  size="icon"
-                  title={command.label}
-                  variant={
-                    (command.shouldBeMarked &&
-                      command.shouldBeMarked(editor)) ??
-                    false
-                      ? "outline"
-                      : "ghost"
-                  }
-                  className="h-[unset] w-[unset] rounded border border-transparent p-1"
-                >
-                  <command.icon className="h-4 w-4" />
-                </Button>
-              ))}
+              .map((command) => {
+                // TODO: Improve commands renderinf to not use ifs
+                if (command.name === "link") {
+                  return (
+                    <LinkPopover key={command.name} onSetLink={handleLink} />
+                  );
+                } else {
+                  return (
+                    <Button
+                      key={command.name}
+                      onClick={() => command.action(editor)}
+                      size="icon"
+                      title={command.label}
+                      variant={
+                        (command.shouldBeMarked &&
+                          command.shouldBeMarked(editor)) ??
+                        false
+                          ? "outline"
+                          : "ghost"
+                      }
+                      className="h-[unset] w-[unset] rounded border border-transparent p-1"
+                    >
+                      <command.icon className="h-4 w-4" />
+                    </Button>
+                  );
+                }
+              })}
           </Fragment>
         ))}
       </div>
