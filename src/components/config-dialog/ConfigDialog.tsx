@@ -50,9 +50,12 @@ export const ConfigDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {/* TODO: Enable edit mode */}
           <div className="flex items-center justify-between">
-            <span className="text-sm">Editable</span>
-            <Switch checked={editable} onCheckedChange={setEditable} />
+            <span className="text-sm text-neutral-400">
+              Editable ( Disabled for repair )
+            </span>
+            <Switch checked={editable} disabled onCheckedChange={setEditable} />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">Verical</span>
