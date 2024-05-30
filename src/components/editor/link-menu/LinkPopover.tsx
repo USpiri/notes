@@ -14,7 +14,7 @@ export const LinkPopover = ({ onSetLink }: LinkPopoverProps) => {
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button
           aria-label="Add link"
           size="icon"

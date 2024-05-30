@@ -1,22 +1,22 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Link from "@tiptap/extension-link";
+import Placeholder from "@tiptap/extension-placeholder";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
+import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { cn } from "@/lib/utils";
-import { EditorMenu } from "./EditorMenu";
-import Underline from "@tiptap/extension-underline";
-import TaskList from "@tiptap/extension-task-list";
-import TaskItem from "@tiptap/extension-task-item";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import "./editor.css";
-import Link from "@tiptap/extension-link";
-import { SlashCommand } from "./extensions/slash-command/slash-command";
-import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect } from "react";
+import { BubbleMenu } from "./BubbleMenu";
+import { EditorMenu } from "./EditorMenu";
+import "./editor.css";
 import { CalloutExtension } from "./extensions/callout/callout";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
-import { BubbleMenu } from "./BubbleMenu";
+import { SlashCommand } from "./extensions/slash-command/slash-command";
 import { LinkMenu } from "./link-menu/LinkMenu";
 
 export interface NoteEditorProps {
@@ -81,7 +81,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
     if (editor) {
       editor.setEditable(editable);
     }
-  }, [editable, editor]);
+  }, [editable]);
 
   if (!editor) return;
 

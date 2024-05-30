@@ -8,9 +8,53 @@ Incoming changes and features.
 
 ### Added
 
-<!-- - **Drag&Drop**: Drag and drop notes, folders and editor components. -->
-
 - **Image display**: Add image display.
+
+### Research
+
+- Prosemirror Plugins: Para mejorar la experiencia en el uso de MathPlugin o InlineCode.
+- Tauri & Tauri file system: Primeras aproximaciones al framework.
+
+## [1.4.0] | 29-05-2024
+
+### Added
+
+- **Drag&Drop:** Drag and drop for notes and folders, improving organization.
+- **Change Version Control:** Data updates from one version to another of the storage system automatically. **Storage v1.**
+- **Performance:** Removed unnecessary component updates.
+
+### Changed
+
+- **Storage system v1:** moved from a nested data scheme (notes and folders) to a simpler flat system.
+
+```ts
+// Storage v0
+interface Folder {
+  id: string;
+  title: string;
+  folders: Folder[];
+  notes: Notes[];
+}
+
+// Storage v1
+interface Files {
+  id: string;
+  parent: string;
+  title: string;
+}
+
+interface Notes {
+  id: string;
+  content: string;
+}
+```
+
+- **Sidebar Structure:** completely restructured Sidebar.
+
+### Fixed
+
+- **Popover as Child:** button rendered inside another.
+- Sidebar scroll overflow fixed.
 
 ## [1.3.0] | 15-05-2024
 

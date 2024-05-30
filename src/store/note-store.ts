@@ -1,226 +1,186 @@
 import { MAIN } from "@/lib/content";
 import { Folder } from "@/models/folder.interface";
+import { TreeNode } from "@/models/node.interface";
 import { Note } from "@/models/note.interface";
 import { type StateCreator, create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface NoteState {
-  root: Folder;
-  createNote: () => void;
-  createFolder: () => void;
-  createNoteInFolder: (id: string) => void;
-  createFolderInFolder: (id: string) => void;
+  root?: any;
+  folders: TreeNode[];
+  notes: Note[];
+
+  createNote: (parent?: string) => void;
   updateNote: (id: string, note: Note) => void;
-  updateFodlerName: (id: string, name: string) => void;
   deleteNote: (id: string) => void;
+
+  createFolder: (parent?: string) => void;
+  updateFolder: (id: string, text: string) => void;
+  updateFolders: (folders: TreeNode[]) => void;
   deleteFolder: (id: string) => void;
 }
 
 const defaultNote = {
   id: "U18DIC224RG",
-  title: "Welcome! 📝",
   content: MAIN,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+};
+
+const defaultFolder: TreeNode = {
+  id: "U18DIC224RG",
+  text: "My Notes",
+  parent: "root",
 };
 
 const noteState: StateCreator<NoteState> = (set) => ({
-  root: {
-    id: "root",
-    name: "Root",
-    notes: [defaultNote],
-    folders: [],
+  folders: [defaultFolder],
+  notes: [defaultNote],
+
+  createNote: (parent?: string) => {
+    const note = newNote();
+    const folder: TreeNode = {
+      id: note.id,
+      parent: parent ?? "root",
+      text: "New note",
+    };
+    set((state) => ({
+      notes: [...state.notes, note],
+      folders: [...state.folders, folder],
+    }));
   },
 
-  createNote: () =>
+  createFolder: (parent?: string) =>
     set((state) => ({
-      root: { ...state.root, notes: [...state.root.notes, createNewNote()] },
+      folders: [...state.folders, newFolder(parent, true)],
     })),
-  createFolder: () =>
-    set((state) => ({
-      root: {
-        ...state.root,
-        folders: [...state.root.folders, createNewFolder()],
-      },
-    })),
-  createNoteInFolder: (id) => {
-    set((state) => {
-      const updatedRoot = newNoteInFolder(id, state.root);
-      return { root: updatedRoot };
-    });
-  },
-  createFolderInFolder: (id) => {
-    set((state) => {
-      const updatedRoot = newFolderInFolder(id, state.root);
-      return { root: updatedRoot };
-    });
-  },
 
-  updateNote: (id, note) => {
+  updateNote: (id, note) =>
+    set((state) => ({
+      notes: state.notes.map((n) => (n.id === id ? note : n)),
+    })),
+
+  updateFolder: (id, text) =>
+    set((state) => ({
+      folders: [
+        ...state.folders.map((f) => (f.id === id ? { ...f, text } : f)),
+      ],
+    })),
+
+  updateFolders: (folders) =>
+    set(() => ({
+      folders: [...folders],
+    })),
+
+  deleteNote: (id) =>
+    set((state) => ({
+      notes: state.notes.filter((n) => n.id !== id),
+      folders: state.folders.filter((f) => f.id !== id),
+    })),
+
+  deleteFolder: (id) =>
     set((state) => {
-      const updatedRoot = updateNoteInFolders(id, note, state.root);
+      const deletionList = getDeletionList(state.folders, id);
       return {
-        root: updatedRoot,
+        folders: state.folders.filter((f) => !deletionList.includes(f.id)),
+        notes: state.notes.filter((n) => !deletionList.includes(n.id)),
       };
-    });
-  },
-  updateFodlerName: (id, name) => {
-    set((state) => {
-      const updatedRoot = updatedFolderInFolders(id, name, state.root);
-      return {
-        root: updatedRoot,
-      };
-    });
-  },
-  deleteNote: (id) => {
-    set((state) => {
-      const updatedRoot = deleteNoteInFolders(id, state.root);
-      return {
-        root: updatedRoot,
-      };
-    });
-  },
-  deleteFolder: (id) => {
-    set((state) => {
-      const updatedRoot = deleteFolderInFolders(id, state.root);
-      return {
-        root: updatedRoot,
-      };
-    });
-  },
+    }),
 });
+
+const flatRoot = (root: Folder): TreeNode[] => {
+  return [
+    ...flatFolders(root.folders, "root"),
+    ...parseNotesToTreeNode(root.notes, "root"),
+  ];
+};
+
+const flatRootNotes = (root: Folder): Note[] => {
+  const notes = root.notes.map(({ id, content }) => ({ id, content }));
+  return [...notes, ...getNotesfromFolder(root.folders)];
+};
+
+const getNotesfromFolder = (folders: Folder[]): Note[] => {
+  return folders.flatMap((f) => {
+    const notes = f.notes.map(({ id, content }) => ({ id, content }));
+    return [...notes, ...getNotesfromFolder(f.folders)];
+  });
+};
+
+const parseNotesToTreeNode = (notes: Note[], parent: string): TreeNode[] => {
+  return notes.map((n) => ({
+    id: n.id,
+    parent,
+    text: n.title ?? "New note",
+  }));
+};
+
+const flatFolders = (folders: Folder[], parent: string): TreeNode[] => {
+  return folders.flatMap((f) => {
+    return [
+      {
+        id: f.id,
+        parent,
+        droppable: true,
+        text: f.name ?? "New folder",
+      },
+      ...flatFolders(f.folders, f.id),
+      ...parseNotesToTreeNode(f.notes, f.id),
+    ];
+  });
+};
 
 export const useNoteStore = create<NoteState>()(
-  devtools(persist(noteState, { name: "note-store" })),
+  devtools(
+    persist(noteState, {
+      name: "note-store",
+      version: 1,
+      migrate(persistedStateUnknown, version) {
+        const persistedState = persistedStateUnknown as NoteState;
+
+        if (version === 0) {
+          const folders = flatRoot(persistedState.root!);
+          const notes = flatRootNotes(persistedState.root!);
+          persistedState.folders = folders;
+          persistedState.notes = notes;
+          delete persistedState.root;
+        }
+
+        return persistedState;
+      },
+    }),
+  ),
 );
 
-export const findNoteById = (id: string, folder: Folder): Note | null => {
-  const note = folder.notes.find((note) => note.id === id);
-  if (note) return note;
-  for (const subfolder of folder.folders) {
-    const note = findNoteById(id, subfolder);
-    if (note) return note;
-  }
-  return null;
+const getDeletionList = (nodes: TreeNode[], id: string): string[] => {
+  const childs = findChilds(nodes, id);
+  return [id, ...childs.map((n) => n.id)];
 };
 
-const updateNoteInFolders = (
-  id: string,
-  note: Note,
-  folder: Folder,
-): Folder => {
-  const updatedNotes = folder.notes.map((n) => (n.id === id ? note : n));
-
-  if (updatedNotes.some((n) => n.id === id)) {
-    return { ...folder, notes: updatedNotes };
-  }
-
-  const updatedFolders = folder.folders.map((sub) =>
-    updateNoteInFolders(id, note, sub),
-  );
-  return {
-    ...folder,
-    notes: updatedNotes,
-    folders: updatedFolders,
-  };
+const findChilds = (nodes: TreeNode[], id: string) => {
+  let childs: TreeNode[] = [];
+  nodes.forEach((n) => {
+    if (n.parent === id) {
+      childs.push(n);
+      childs = [...childs, ...findChilds(nodes, n.id)];
+    }
+  });
+  return childs;
 };
 
-const deleteNoteInFolders = (id: string, folder: Folder): Folder => {
-  const filteredNotes = folder.notes.filter((n) => n.id !== id);
-  if (filteredNotes.length < folder.notes.length) {
-    return {
-      ...folder,
-      notes: filteredNotes,
-    };
-  }
-  const filteredFolders = folder.folders.map((sub) =>
-    deleteNoteInFolders(id, sub),
-  );
-  return {
-    ...folder,
-    notes: filteredNotes,
-    folders: filteredFolders,
-  };
-};
-
-const createNewNote = (): Note => ({
+const newNote = (): Note => ({
   id: generateUUID(),
-  title: "New note",
   content: "",
-  createdAt: new Date(),
-  updatedAt: new Date(),
 });
 
-const newNoteInFolder = (id: string, folder: Folder): Folder => {
-  const note = createNewNote();
-  const updatedFolders = folder.folders.map((f) =>
-    f.id === id ? { ...f, notes: [...f.notes, note] } : f,
-  );
-
-  if (updatedFolders.some((f) => f.id === id)) {
-    return { ...folder, folders: updatedFolders };
-  } else {
-    const updatedSubFolders = updatedFolders.map((f) => newNoteInFolder(id, f));
-    return { ...folder, folders: updatedSubFolders };
-  }
-};
-
-const createNewFolder = (): Folder => ({
+const newFolder = (
+  parent?: string,
+  droppable?: boolean,
+  text?: string,
+): TreeNode => ({
   id: generateUUID(),
-  name: "New folder",
-  notes: [],
-  folders: [],
+  parent: parent ?? "root",
+  droppable,
+  text: droppable ? text ?? "New folder" : text ?? "New note",
 });
-
-const newFolderInFolder = (id: string, folder: Folder): Folder => {
-  const newFolder = createNewFolder();
-  const updatedFolders = folder.folders.map((f) =>
-    f.id === id ? { ...f, folders: [...f.folders, newFolder] } : f,
-  );
-
-  if (updatedFolders.some((f) => f.id === id)) {
-    return { ...folder, folders: updatedFolders };
-  } else {
-    const updatedSubFolders = updatedFolders.map((f) =>
-      newFolderInFolder(id, f),
-    );
-    return { ...folder, folders: updatedSubFolders };
-  }
-};
-
-const updatedFolderInFolders = (
-  id: string,
-  name: string,
-  folder: Folder,
-): Folder => {
-  const updatedFolders = folder.folders.map((f) =>
-    f.id === id ? { ...f, name } : f,
-  );
-
-  if (updatedFolders.some((f) => f.id === id)) {
-    return { ...folder, folders: updatedFolders };
-  } else {
-    const updatedSubFolders = updatedFolders.map((f) =>
-      updatedFolderInFolders(id, name, f),
-    );
-    return { ...folder, folders: updatedSubFolders };
-  }
-};
-
-const deleteFolderInFolders = (id: string, folder: Folder): Folder => {
-  const filteredFolders = folder.folders.filter((f) => f.id !== id);
-  if (filteredFolders.length < folder.folders.length) {
-    return { ...folder, folders: filteredFolders };
-  } else {
-    const updatedFolders = filteredFolders.map((sub) =>
-      deleteFolderInFolders(id, sub),
-    );
-    return {
-      ...folder,
-      folders: updatedFolders,
-    };
-  }
-};
 
 const generateUUID = () => {
   return (

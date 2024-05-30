@@ -1,7 +1,5 @@
 <a name="readme-top"></a>
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 # Notes app
 
 <br />
@@ -77,9 +75,11 @@ Part of the objective, also, is to incorporate new technologies (for me) and tha
 
 ## Contact
 
-Uriel Spiridione - [@UrielSpiridione](https://twitter.com/UrielSpiridione) - urielspiridione135@gmail.com
+**Uriel Spiridione** - [@UrielSpiridione](https://twitter.com/UrielSpiridione) - urielspiridione135@gmail.com
 
-Project Link: [https://github.com/USpiri/next-notes/](https://github.com/USpiri/next-notes/)
+**Project Link:** [https://github.com/USpiri/next-notes/](https://github.com/USpiri/next-notes/)
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

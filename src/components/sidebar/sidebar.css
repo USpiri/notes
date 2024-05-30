@@ -5,7 +5,7 @@
     border 0.05s linear;
 }
 .open {
-  @apply w-screen border-neutral-800 sm:w-64;
+  @apply w-screen border-neutral-800 sm:w-72;
 }
 
 .tab .tab-header:has(input:checked) ~ .content {
