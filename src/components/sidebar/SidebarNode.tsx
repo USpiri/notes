@@ -1,6 +1,7 @@
 import { NodeModel, useDragOver } from "@minoru/react-dnd-treeview";
 import { SidebarFolder } from "./SidebarFolder";
 import { SidebarItem } from "./SidebarItem";
+import { Suspense } from "react";
 
 interface SidebarNodeProps {
   node: NodeModel;
@@ -34,24 +35,10 @@ export const SidebarNode = ({
           onClick={handleToggle}
         />
       ) : (
-        <SidebarItem id={node.id.toString()} text={node.text} />
+        <Suspense>
+          <SidebarItem id={node.id.toString()} text={node.text} />
+        </Suspense>
       )}
-    </div>
-  );
-};
-
-interface WrapperProp {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-export const NodeItemWrapper = ({ children, onClick }: WrapperProp) => {
-  return (
-    <div
-      className="flex items-center gap-2 rounded px-2 py-0.5 hover:bg-neutral-900"
-      onClick={onClick}
-    >
-      {children}
     </div>
   );
 };
