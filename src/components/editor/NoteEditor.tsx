@@ -7,6 +7,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Underline from "@tiptap/extension-underline";
+import Image from "@tiptap/extension-image";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
@@ -59,6 +60,11 @@ export const NoteEditor = (props: NoteEditorProps) => {
           lowlight,
         }),
         Math,
+        Image.configure({
+          HTMLAttributes: {
+            class: "rounded",
+          },
+        }),
       ],
       content,
       editable,

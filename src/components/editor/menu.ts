@@ -6,6 +6,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Image,
   Italic,
   Lightbulb,
   Link,
@@ -219,6 +220,21 @@ export const MENU: MenuGroup[] = [
               .run();
         },
         shouldBeMarked: (editor) => editor.isActive("link"),
+      },
+      {
+        name: "image",
+        label: "Add Image",
+        icon: Image,
+        description: "Add image",
+        inline: false,
+        action: (editor) => {
+          // TODO: Open with tippy
+          const url = window.prompt("URL");
+
+          if (url) {
+            editor.chain().focus().setImage({ src: url }).run();
+          }
+        },
       },
       {
         name: "callout",
