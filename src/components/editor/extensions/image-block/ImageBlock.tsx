@@ -11,9 +11,11 @@ export const ImageBlock = ({
   const { src, alt, align } = node.attrs;
 
   const wrapperClassName = cn(
+    "block rounded",
     align === "left" ? "ml-0" : "ml-auto",
     align === "right" ? "mr-0" : "mr-auto",
     align === "center" && "mx-auto",
+    selected && "ring-2 ring-neutral-500",
   );
 
   const onClick = useCallback(() => {
@@ -22,13 +24,9 @@ export const ImageBlock = ({
 
   return (
     <NodeViewWrapper>
-      <div
-        className={wrapperClassName}
-        style={{ width: node.attrs.width }}
-        contentEditable={false}
-      >
+      <div contentEditable={false}>
         <img
-          className={cn("block rounded", selected && "ring-1 ring-neutral-500")}
+          className={wrapperClassName}
           src={src}
           alt={alt}
           onClick={onClick}

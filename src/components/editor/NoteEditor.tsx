@@ -19,6 +19,7 @@ import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import { LinkMenu } from "./link-menu/LinkMenu";
+import { ImageMenu } from "./extensions/image-block/ImageMenu";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -38,6 +39,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
   } = props.editorConfig;
   const { onUpdate, content } = props;
 
+  // TODO: Move extensions to extensions/index.ts file
   const editor = useEditor(
     {
       autofocus: true,
@@ -60,11 +62,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
           lowlight,
         }),
         Math,
-        Image.configure({
-          HTMLAttributes: {
-            class: "rounded",
-          },
-        }),
+        Image,
       ],
       content,
       editable,
@@ -97,6 +95,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
         <>
           <BubbleMenu editor={editor} />
           <LinkMenu editor={editor} />
+          <ImageMenu editor={editor} />
         </>
       )}
       {!inline && (
