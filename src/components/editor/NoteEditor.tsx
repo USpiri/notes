@@ -19,7 +19,6 @@ import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import { LinkMenu } from "./link-menu/LinkMenu";
-import { ImageMenu } from "./extensions/image-block/ImageMenu";
 
 export interface NoteEditorProps {
   editorConfig: {
@@ -95,7 +94,6 @@ export const NoteEditor = (props: NoteEditorProps) => {
         <>
           <BubbleMenu editor={editor} />
           <LinkMenu editor={editor} />
-          <ImageMenu editor={editor} />
         </>
       )}
       {!inline && (

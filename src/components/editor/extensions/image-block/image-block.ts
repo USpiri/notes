@@ -11,6 +11,7 @@ declare module "@tiptap/core" {
         pos: number | Range;
       }) => ReturnType;
       setImageBlockAlign: (align: "left" | "center" | "right") => ReturnType;
+      setImageBlockWidth: (width: number) => ReturnType;
     };
   }
 }
@@ -32,6 +33,13 @@ export const Image = ImageExtension.extend({
         default: "center",
         parseHTML: (element) => element.getAttribute("data-align"),
         renderHTML: (attributes) => ({ "data-align": attributes.align }),
+      },
+      width: {
+        default: "100%",
+        parseHTML: (element) => element.getAttribute("width"),
+        renderHTML: (attributes) => ({
+          width: attributes.width,
+        }),
       },
       alt: {
         default: undefined,
@@ -74,6 +82,13 @@ export const Image = ImageExtension.extend({
         (align) =>
         ({ commands }) =>
           commands.updateAttributes("imageBlock", { align }),
+
+      setImageBlockWidth:
+        (width) =>
+        ({ commands }) =>
+          commands.updateAttributes(" imageBlock", {
+            width: `${Math.max(0, Math.min(100, width))}%`,
+          }),
     };
   },
 
