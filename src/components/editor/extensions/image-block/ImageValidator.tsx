@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 interface ImageValidatorProps {
   src: string;
   alt: string;
+  width: number;
   className?: string;
-  onClick?: () => void;
 }
 
 export const ImageValidator = (props: ImageValidatorProps) => {
@@ -26,7 +26,16 @@ export const ImageValidator = (props: ImageValidatorProps) => {
   }, [props.src]);
 
   if (state === "success") {
-    return <img {...props} />;
+    return (
+      <>
+        <img
+          className={props.className}
+          style={{ maxWidth: `${props.width}%` }}
+          src={props.src}
+          alt={props.alt}
+        />
+      </>
+    );
   }
 
   if (state === "error") {

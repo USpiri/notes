@@ -86,8 +86,8 @@ export const Image = ImageExtension.extend({
       setImageBlockWidth:
         (width) =>
         ({ commands }) =>
-          commands.updateAttributes(" imageBlock", {
-            width: `${Math.max(0, Math.min(100, width))}%`,
+          commands.updateAttributes("imageBlock", {
+            width,
           }),
     };
   },

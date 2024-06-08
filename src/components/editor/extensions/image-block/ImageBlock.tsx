@@ -15,8 +15,9 @@ export const ImageBlock = ({
   getPos,
   node,
   selected,
+  updateAttributes,
 }: NodeViewProps) => {
-  const { src, alt, align } = node.attrs;
+  const { src, alt, align, width } = node.attrs;
 
   const wrapperClassName = cn(
     "block rounded",
@@ -30,32 +31,32 @@ export const ImageBlock = ({
 
   const onClick = useCallback(() => {
     editor.commands.setNodeSelection(getPos());
-    console.log("SET SELECTION");
   }, [getPos, editor.commands]);
 
   const onAlignImageLeft = useCallback(() => {
-    editor
-      .chain()
-      .focus(undefined, { scrollIntoView: false })
-      .setImageBlockAlign("left")
-      .run();
+    updateAttributes({ align: "left" });
   }, [editor]);
 
   const onAlignImageCenter = useCallback(() => {
-    editor
-      .chain()
-      .focus(undefined, { scrollIntoView: false })
-      .setImageBlockAlign("center")
-      .run();
+    updateAttributes({ align: "center" });
   }, [editor]);
 
   const onAlignImageRight = useCallback(() => {
-    editor
-      .chain()
-      .focus(undefined, { scrollIntoView: false })
-      .setImageBlockAlign("right")
-      .run();
+    updateAttributes({ align: "right" });
   }, [editor]);
+
+  const onSizeChange = useCallback(
+    (value: number[]) => {
+      setTimeout(() => {
+        editor
+          .chain()
+          .focus(undefined, { scrollIntoView: false })
+          .setImageBlockWidth(value[0])
+          .run();
+      });
+    },
+    [editor],
+  );
 
   return (
     <NodeViewWrapper>
@@ -64,7 +65,14 @@ export const ImageBlock = ({
         className={`relative rounded ${borderClassName}`}
         onClick={onClick}
       >
-        <ImageValidator className={wrapperClassName} src={src} alt={alt} />
+        <div>
+          <ImageValidator
+            src={src}
+            alt={alt}
+            className={wrapperClassName}
+            width={width}
+          />
+        </div>
         {selected && (
           <div className="absolute right-2 top-2 flex flex-row items-center gap-1 rounded border border-neutral-700 bg-neutral-950 px-2 py-1">
             <Button
@@ -96,10 +104,11 @@ export const ImageBlock = ({
             </Button>
             <Slider
               className="w-32"
-              defaultValue={[25, 50, 75, 100]}
+              defaultValue={[width]}
               step={25}
-              inverted
-            ></Slider>
+              min={25}
+              onValueChange={onSizeChange}
+            />
           </div>
         )}
       </div>
