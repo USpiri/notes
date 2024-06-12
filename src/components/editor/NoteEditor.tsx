@@ -14,6 +14,7 @@ import { BubbleMenu } from "./BubbleMenu";
 import { EditorMenu } from "./EditorMenu";
 import "./editor.css";
 import { CalloutExtension } from "./extensions/callout/callout";
+import { Image } from "./extensions/image-block/image-block";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
 import Focus from "@tiptap/extension-focus";
@@ -38,6 +39,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
   } = props.editorConfig;
   const { onUpdate, content } = props;
 
+  // TODO: Move extensions to extensions/index.ts file
   const editor = useEditor(
     {
       autofocus: true,
@@ -60,6 +62,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
           lowlight,
         }),
         Math,
+        Image,
         Focus,
       ],
       content,

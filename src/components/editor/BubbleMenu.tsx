@@ -37,7 +37,8 @@ export const isTextSelected = ({ editor }: { editor: Editor }) => {
     editor.isActive("codeBlock") ||
     editor.isActive("link") ||
     editor.isActive("mathDisplay") ||
-    editor.isActive("mathInline")
+    editor.isActive("mathInline") ||
+    editor.isActive("imageBlock")
   ) {
     return false;
   }
