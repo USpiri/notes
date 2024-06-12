@@ -6,14 +6,16 @@ All notable changes to this project will be documented in this file. The format 
 
 Incoming changes and features.
 
-### Added
-
-- **Image display**: Add image display.
-
 ### Research
 
-- Prosemirror Plugins: Para mejorar la experiencia en el uso de MathPlugin o InlineCode.
 - Tauri & Tauri file system: Primeras aproximaciones al framework.
+
+## [1.5.0] | 12-06-2024
+
+### Added
+
+- **Image Plugin:** Add image display with size and align attributes.
+- **New Math Plugin:** More user friendly and performant plugin for math expressions.
 
 ## [1.4.0] | 29-05-2024
 
