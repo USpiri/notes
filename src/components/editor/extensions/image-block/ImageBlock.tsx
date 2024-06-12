@@ -18,16 +18,17 @@ export const ImageBlock = ({
   updateAttributes,
 }: NodeViewProps) => {
   const { src, alt, align, width } = node.attrs;
+  console.log(width);
 
   const wrapperClassName = cn(
     "block rounded",
     align === "left" ? "ml-0" : "ml-auto",
     align === "right" ? "mr-0" : "mr-auto",
     align === "center" && "mx-auto",
-    selected && "ring-2 ring-neutral-500",
+    selected && "ring-1 ring-neutral-500",
   );
 
-  const borderClassName = cn(selected && "ring-2 ring-neutral-800");
+  const borderClassName = cn(selected && "ring-1 ring-neutral-800");
 
   const onClick = useCallback(() => {
     editor.commands.setNodeSelection(getPos());
