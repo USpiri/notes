@@ -48,10 +48,13 @@ export const MathInline = Node.create<MathExtensionOption>({
   addInputRules() {
     return [
       new InputRule({
-        find: inputRule,
+        find: new RegExp(`\\$([^\\s])([^$]*)\\$$`, ""),
         handler: (props) => {
-          if (props.match[1].startsWith("$")) return;
-          const latex = (props.match[1] + props.match[2]).trim();
+          if (props.match[1].startsWith("$")) {
+            return;
+          }
+          let latex = props.match[1] + props.match[2];
+          latex = latex.trim();
           const content: Content = [
             {
               type: this.name,
@@ -127,7 +130,7 @@ export const MathInline = Node.create<MathExtensionOption>({
           state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
             if (node.type.name === this.name) {
               isMath = true;
-              tr.insertText("$" + (node.attrs.latex || "") + "", pos, anchor);
+              tr.insertText("$" + (node.attrs.latex || "") + "$", pos, anchor);
             }
           });
           return isMath;
