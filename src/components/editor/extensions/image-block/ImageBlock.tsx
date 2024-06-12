@@ -18,7 +18,6 @@ export const ImageBlock = ({
   updateAttributes,
 }: NodeViewProps) => {
   const { src, alt, align, width } = node.attrs;
-  console.log(width);
 
   const wrapperClassName = cn(
     "block rounded",
@@ -49,11 +48,7 @@ export const ImageBlock = ({
   const onSizeChange = useCallback(
     (value: number[]) => {
       setTimeout(() => {
-        editor
-          .chain()
-          .focus(undefined, { scrollIntoView: false })
-          .setImageBlockWidth(value[0])
-          .run();
+        editor.chain().setImageBlockWidth(value[0]).run();
       });
     },
     [editor],
