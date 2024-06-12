@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { MENU } from "./menu";
+import "./extensions/math/math.css";
 
 interface EditorMenuProps {
   vertical: boolean;
