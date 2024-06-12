@@ -16,6 +16,7 @@ import "./editor.css";
 import { CalloutExtension } from "./extensions/callout/callout";
 import lowlight from "./extensions/lowlight-codeblock/lowlight";
 import { Math } from "./extensions/math";
+import Focus from "@tiptap/extension-focus";
 import { SlashCommand } from "./extensions/slash-command/slash-command";
 import { LinkMenu } from "./link-menu/LinkMenu";
 
@@ -59,6 +60,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
           lowlight,
         }),
         Math,
+        Focus,
       ],
       content,
       editable,

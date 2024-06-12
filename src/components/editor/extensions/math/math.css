@@ -1,3 +1,34 @@
 .node-mathDisplay {
   margin-block: 0.75rem;
+  .math-display {
+    .math-src {
+      overflow: hidden;
+      height: 0px;
+      margin-top: 0.5rem;
+      @apply text-neutral-400;
+      &::after,
+      &::before {
+        content: "$$";
+        text-align: left;
+        @apply text-neutral-600;
+      }
+    }
+    .math-render {
+      &:empty {
+        @apply text-rose-300/70;
+        &::before {
+          @apply font-mono;
+          content: "Empty Math";
+        }
+      }
+    }
+  }
+  &.has-focus {
+    @apply rounded ring-1 ring-neutral-800;
+    .math-display {
+      .math-src {
+        height: auto;
+      }
+    }
+  }
 }

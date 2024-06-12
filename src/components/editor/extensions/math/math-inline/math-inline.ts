@@ -26,6 +26,7 @@ export const MathInline = Node.create<MathExtensionOption>({
   name,
   group: "inline",
   content: "text*",
+  marks: "",
   atom: true,
   inline: true,
   selectable: true,
@@ -147,7 +148,6 @@ export const MathInline = Node.create<MathExtensionOption>({
       ) {
         latex = HTMLAttributes["data-latex"];
       }
-
       katex.render(latex, span, {
         throwOnError: false,
         ...(this.options.katexOptions ?? {}),
