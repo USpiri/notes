@@ -35,7 +35,7 @@ export const Image = ImageExtension.extend({
         renderHTML: (attributes) => ({ "data-align": attributes.align }),
       },
       width: {
-        default: "100%",
+        default: 100,
         parseHTML: (element) => element.getAttribute("width"),
         renderHTML: (attributes) => ({
           width: attributes.width,
