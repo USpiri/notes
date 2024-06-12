@@ -62,8 +62,8 @@ Part of the objective, also, is to incorporate new technologies (for me) and tha
 ## Roadmap
 
 - [x] Add CHANGELOG.md
-- [ ] Add Image display
-- [ ] Drag&Drop for folders, notes and editor components
+- [x] Add Image display
+- [x] Drag&Drop for folders, notes and editor components
 - [ ] Add Template notes
 - [ ] Add Charts
 - [ ] Add Tables
@@ -75,7 +75,7 @@ Part of the objective, also, is to incorporate new technologies (for me) and tha
 
 ## Contact
 
-**Uriel Spiridione** - [@UrielSpiridione](https://twitter.com/UrielSpiridione) - urielspiridione135@gmail.com
+**Uriel Spiridione** - [@UrielSpiridione](https://twitter.com/UrielSpiridione) - <urielspiridione135@gmail.com>
 
 **Project Link:** [https://github.com/USpiri/next-notes/](https://github.com/USpiri/next-notes/)
 
