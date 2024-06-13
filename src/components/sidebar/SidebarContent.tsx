@@ -8,7 +8,7 @@ import {
 } from "@minoru/react-dnd-treeview";
 import { DndProvider } from "react-dnd";
 import { SidebarNode } from "./SidebarNode";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export const SidebarContent = () => {
@@ -53,8 +53,18 @@ export const SidebarContent = () => {
           <input
             placeholder="Search..."
             onChange={handleSearch}
-            className="w-full bg-transparent py-1 placeholder-neutral-400 outline-none placeholder:font-medium"
+            value={searchParam}
+            className="flex-1 bg-transparent py-1 placeholder-neutral-400 outline-none placeholder:font-medium"
           />
+          {searchParam.length > 0 && (
+            <X
+              className="h-4 w-4 cursor-pointer"
+              onClick={() => {
+                setSearchParam("");
+                setTree(treeStore);
+              }}
+            />
+          )}
         </label>
       </div>
       <div className="flex h-full flex-col gap-2 overflow-y-auto">
