@@ -1,6 +1,5 @@
 .sidebar {
   height: 100vh;
-  height: 100dvh;
   @apply w-0 border-transparent;
   transition:
     width 0.2s linear,
@@ -12,4 +11,10 @@
 
 .tab .tab-header:has(input:checked) ~ .content {
   max-height: fit-content;
+}
+
+@media (min-width: 640px) {
+  .sidebar {
+    height: 100svh;
+  }
 }
