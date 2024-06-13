@@ -1,4 +1,6 @@
 .sidebar {
+  height: 100vh;
+  height: 100dvh;
   @apply w-0 border-transparent;
   transition:
     width 0.2s linear,

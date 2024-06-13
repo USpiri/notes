@@ -16,7 +16,7 @@ export const Sidebar = () => {
     <aside className="fixed z-20 bg-neutral-950 sm:relative sm:flex">
       <div
         className={cn(
-          "sidebar sticky top-0 h-screen overflow-hidden border-r bg-neutral-950",
+          "sidebar sticky top-0 overflow-hidden border-r bg-neutral-950",
           open && "open",
         )}
       >
