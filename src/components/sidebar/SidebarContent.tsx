@@ -48,7 +48,7 @@ export const SidebarContent = () => {
   return (
     <DndProvider backend={MultiBackend} options={getBackendOptions()}>
       <div>
-        <label className="m-1 flex items-center gap-2 rounded-md border border-neutral-700 px-2 py-1 text-xs text-neutral-300">
+        <label className="m-1 mb-0 flex items-center gap-2 rounded-md border border-neutral-700 px-2 py-1 text-xs text-neutral-300">
           <Search className="h-4 w-4" />
           <input
             placeholder="Search..."
