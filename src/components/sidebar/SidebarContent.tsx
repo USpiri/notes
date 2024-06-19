@@ -20,8 +20,9 @@ export const SidebarContent = () => {
 
   const handleDrop = (node: NodeModel[]) => updateFolders(node as TreeNode[]);
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    const search = event.target.value.trim().toLowerCase();
-    setSearchParam(search);
+    const value = event.target.value;
+    setSearchParam(value);
+    const search = value.trim().toLowerCase();
     if (search.length) {
       filterTree(search);
     } else {
