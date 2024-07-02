@@ -50,22 +50,18 @@ export const ConfigDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          {/* TODO: Enable edit mode */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-neutral-400">
-              Editable ( Disabled for repair )
-            </span>
-            <Switch checked={editable} disabled onCheckedChange={setEditable} />
-          </div>
-          <div className="flex items-center justify-between">
+          <label className="flex select-none items-center justify-between">
+            <span className="text-sm">Editable</span>
+            <Switch checked={editable} onCheckedChange={setEditable} />
+          </label>
+          <label className="flex items-center justify-between">
             <span className="text-sm">Verical</span>
             <Switch checked={vertical} onCheckedChange={setVertical} />
-          </div>
-
-          <div className="flex items-center justify-between">
+          </label>
+          <label className="flex items-center justify-between">
             <span className="text-sm">Inline</span>
             <Switch checked={inline} onCheckedChange={setInline} />
-          </div>
+          </label>
           <Separator />
           <div className="flex flex-wrap items-center justify-center gap-5">
             {links.map((link) => (
