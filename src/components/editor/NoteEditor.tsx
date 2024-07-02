@@ -93,10 +93,10 @@ export const NoteEditor = (props: NoteEditorProps) => {
   return (
     <div className={cn("flex", vertical ? "flex-row" : "flex-col")}>
       {editable && (
-        <>
+        <div>
           <BubbleMenu editor={editor} />
           <LinkMenu editor={editor} />
-        </>
+        </div>
       )}
       {!inline && (
         <EditorMenu vertical={vertical} editable={editable} editor={editor} />
