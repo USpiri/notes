@@ -69,7 +69,7 @@ export const ImageBlock = ({
             width={width}
           />
         </div>
-        {selected && (
+        {selected && editor.isEditable && (
           <div className="absolute right-2 top-2 flex flex-row items-center gap-1 rounded border border-neutral-700 bg-neutral-950 px-2 py-1">
             <Button
               size="icon"

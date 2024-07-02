@@ -27,14 +27,12 @@ export const ImageValidator = (props: ImageValidatorProps) => {
 
   if (state === "success") {
     return (
-      <>
-        <img
-          className={props.className}
-          style={{ maxWidth: `${props.width}%` }}
-          src={props.src}
-          alt={props.alt}
-        />
-      </>
+      <img
+        className={props.className}
+        style={{ maxWidth: `${props.width}%` }}
+        src={props.src}
+        alt={props.alt}
+      />
     );
   }
 
