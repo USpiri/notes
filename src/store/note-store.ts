@@ -12,6 +12,7 @@ interface NoteState {
 
   createNote: (parent?: string) => void;
   updateNote: (id: string, note: Note) => void;
+  copyNote: (noteId: string, parent?: string) => void;
   deleteNote: (id: string) => void;
 
   createFolder: (parent?: string) => void;
@@ -69,6 +70,26 @@ const noteState: StateCreator<NoteState> = (set) => ({
     set(() => ({
       folders: [...folders],
     })),
+
+  copyNote: (noteId: string, parent?: string) => {
+    set((state) => {
+      const current = state.notes.find((n) => n.id === noteId);
+      const currentFolder = state.folders.find((f) => f.id === noteId);
+      console.log(currentFolder);
+
+      if (!currentFolder) return state;
+
+      const note = { ...current, id: generateUUID() } as Note;
+      const folder: TreeNode = {
+        ...currentFolder,
+        id: note.id,
+      };
+      return {
+        notes: [...state.notes, note],
+        folders: [...state.folders, folder],
+      };
+    });
+  },
 
   deleteNote: (id) =>
     set((state) => ({
