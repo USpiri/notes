@@ -2,6 +2,7 @@ import { NodeModel, useDragOver } from "@minoru/react-dnd-treeview";
 import { SidebarFolder } from "./SidebarFolder";
 import { SidebarItem } from "./SidebarItem";
 import { Suspense } from "react";
+import { SidebarContextMenu } from "./SidebarContextMenu";
 
 interface SidebarNodeProps {
   node: NodeModel;
@@ -27,18 +28,25 @@ export const SidebarNode = ({
 
   return (
     <div style={{ marginLeft: indent }} {...dragOverProps} className="text-xs">
-      {droppable ? (
-        <SidebarFolder
-          id={node.id.toString()}
-          text={node.text}
-          isOpen={isOpen}
-          onClick={handleToggle}
-        />
-      ) : (
-        <Suspense>
-          <SidebarItem id={node.id.toString()} text={node.text} />
-        </Suspense>
-      )}
+      <SidebarContextMenu
+        isFolder={droppable ?? false}
+        id={node.id.toString()}
+        parentId={node.parent.toString()}
+        className="z-10"
+      >
+        {droppable ? (
+          <SidebarFolder
+            id={node.id.toString()}
+            text={node.text}
+            isOpen={isOpen}
+            onClick={handleToggle}
+          />
+        ) : (
+          <Suspense>
+            <SidebarItem id={node.id.toString()} text={node.text} />
+          </Suspense>
+        )}
+      </SidebarContextMenu>
     </div>
   );
 };
